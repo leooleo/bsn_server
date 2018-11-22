@@ -1,0 +1,84 @@
+
+<html>
+<head>    
+    <style>
+        body {
+            font-family: "open sans", sans-serif;
+            background: #1b1b1b;
+        }
+        #content {
+            margin: 40px auto;
+            text-align: center;
+            width: 600px;
+            }
+        .teste{
+            margin-top: 100px;
+        }
+
+        
+        #outer-circle {
+            margin: 0 auto 40px;
+            background-color: #3498db;  
+            border-radius: 50%;
+            height: 500px;
+            width: 500px;
+            position: relative;
+        
+            
+            
+        }
+        #inner-circle {
+            position: absolute;
+            background: #1b1b1b;
+            border-radius: 50%;
+            height: 300px;
+            width: 300px;
+        
+            text-align: center;
+            color: white;
+            font-size: 65px;
+        
+            top: 50%;
+            left: 50%;
+            margin: -150px 0px 0px -150px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="content"></div>
+<div id="outer-circle">
+    <div id="inner-circle">
+        <div class="teste">60%</div> 
+    </div>
+</div>
+</div>
+</body>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+<script>
+$(document).ready(function () {        
+    //$('.teste').html('50%');
+    //$("#outer-circle").css("background-color", "yellow");
+    
+    var socket = io();        
+    socket.on('chat', function(msg) {
+        // alert(msg);
+        $(".teste").fadeOut(function() {
+            $("#outer-circle").animate({backgroundColor: 'yellow'}, 1000);
+            $('.teste').text(msg).fadeIn();    
+        });
+        
+    });    
+
+
+    // $(".teste").fadeOut(function() {
+    //     $("#outer-circle").animate({backgroundColor: 'yellow'}, 1000);
+    //     $(this).text("13%").fadeIn();
+    // });
+    
+
+});
+</script>
+</html>

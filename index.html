@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Bsn example</title>
+    <style>
+      .back_message {
+          font-size: 400%;
+      }
+      body { font: 13px Helvetica, Arial; }
+    </style>
+  </head>
+  <body>
+    <div class="back_message"></div>
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        var socket = io();
+        socket.emit('chat','Hello world from front!');
+        socket.on('chat', function(msg) {
+            $('.back_message').html(msg);
+        });
+    </script>
+</html>
