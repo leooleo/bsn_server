@@ -6,21 +6,45 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/status.html');
 });
 
-io.on('connection', function(socket){
-	var sleep = require('sleep');
-	console.log('a user connected');
-	socket.emit('chat', '15%');
-	// sleep.sleep(4);
-	// socket.emit('chat', '39%');
-	// for (let i = 0; i < 10; i++) {
-	// 	var num = Math.round(Math.random() * (100 - 0) + 0);
-	// 	console.log(num.toString() + '%');
-	// 	socket.emit('chat',num.toString() + '%');  
-	// 	sleep.sleep(4);
-	// }
-  
-  
-	
+function get_correspondant_color(data) {	
+	switch (true) {
+		case data <= 10:			
+			// Blue
+			return '#3498db';
+		case data <= 30:
+			// Green
+			return '#56ff61';
+		case data <= 60:
+			// Yellow
+			return '#f7ff60';
+		case data <= 80:
+			// Orange
+			return '#f7891b';
+		case data <= 100:
+			return 'red';
+		default:
+			return 'gray';			
+	}	
+}
+
+var net = require('net');
+var server = net.createServer(function(connection) { 
+    console.log('bsn connected');
+
+    connection.on('end', function() {
+        console.log('bsn disconnected');
+    });
+
+    connection.on('data', function(data) {		
+		console.log("Received from bsn " + data.toString());
+		// Broadcast to all clients
+		var packet = data.toString() + '%' + '-' + get_correspondant_color(Number(data));
+		io.emit('chat', packet  ,{ for: 'everyone' });
+    });
+});
+
+server.listen(8080, function() { 
+	console.log('server is listening');
 });
 
 http.listen(5000, function(){

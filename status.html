@@ -18,7 +18,7 @@
         
         #outer-circle {
             margin: 0 auto 40px;
-            background-color: #3498db;  
+            background-color: #727272;  
             border-radius: 50%;
             height: 500px;
             width: 500px;
@@ -49,7 +49,7 @@
 <div id="content"></div>
 <div id="outer-circle">
     <div id="inner-circle">
-        <div class="teste">60%</div> 
+        <div class="teste">--</div> 
     </div>
 </div>
 </div>
@@ -58,27 +58,19 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 <script>
-$(document).ready(function () {        
-    //$('.teste').html('50%');
-    //$("#outer-circle").css("background-color", "yellow");
-    
+$(document).ready(function () {            
     var socket = io();        
     socket.on('chat', function(msg) {
+        var data = msg.split('-');
+        // alert(data[0]);
+        // alert(data[1]);
         // alert(msg);
-        $(".teste").fadeOut(function() {
-            $("#outer-circle").animate({backgroundColor: 'yellow'}, 1000);
-            $('.teste').text(msg).fadeIn();    
+        $(".teste").fadeOut(function() {        
+            $("#outer-circle").animate({backgroundColor: data[1]}, 1000);
+            $('.teste').text(data[0]).fadeIn();    
         });
         
-    });    
-
-
-    // $(".teste").fadeOut(function() {
-    //     $("#outer-circle").animate({backgroundColor: 'yellow'}, 1000);
-    //     $(this).text("13%").fadeIn();
-    // });
-    
-
+    });
 });
 </script>
 </html>
