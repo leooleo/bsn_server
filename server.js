@@ -36,19 +36,26 @@ var server = net.createServer(function(connection) {
     });
 
     connection.on('data', function(data) {		
-		console.log("Received from bsn " + data.toString());
+		console.log("Received from bsn " + data);
+		data = data.toString();
+		// Char separador
+		data = data.split('*')[0];
+		// Apenas parte inteira		
+		data = data.split('.')[0];
+		console.log("Transform " + data);
+		
 		// Broadcast to all clients
-		var packet = data.toString() + '%' + '-' + get_correspondant_color(Number(data));
+		var packet = data + '%' + '-' + get_correspondant_color(Number(data));
 		io.emit('chat', packet  ,{ for: 'everyone' });
     });
 });
 
-server.listen(8080, function() { 
+server.listen(6060, function() { 
 	console.log('server is listening');
 });
 
-http.listen(5000, function(){
-  console.log('listening on *:5000');
+http.listen(3000, function(){
+  console.log('listening on *:3000');
 });
 
 
