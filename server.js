@@ -1,9 +1,14 @@
+var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+
+app.use("/files", express.static(__dirname + "/files"));
+
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/status.html');
+//   res.sendFile(__dirname + '/status.html');
+	res.sendFile(__dirname + '/chart.html');
 });
 
 function get_correspondant_color(data) {	
@@ -36,8 +41,12 @@ var server = net.createServer(function(connection) {
     });
 
     connection.on('data', function(data) {		
-		console.log("Received from bsn " + data);
 		data = data.toString();
+		
+		// Remove \n caso exista
+		data = data.replace('\n', '');
+		console.log("Received from bsn " + data);
+		
 		// Char separador
 		data = data.split('*')[0];
 		// Apenas parte inteira		
@@ -45,7 +54,8 @@ var server = net.createServer(function(connection) {
 		console.log("Transform " + data);
 		
 		// Broadcast to all clients
-		var packet = data + '%' + '-' + get_correspondant_color(Number(data));
+		// var packet = data + '%' + '-' + get_correspondant_color(Number(data));
+		var packet = data;
 		io.emit('chat', packet  ,{ for: 'everyone' });
     });
 });

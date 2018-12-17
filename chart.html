@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://www.chartjs.org/samples/latest/charts/line/basic.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Line Chart</title>
+	<script async="" src="files/analytics.js"></script><script src="files/Chart.bundle.js"></script><style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+	<script src="./files/utils.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+	<style>
+	canvas{
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+</head>
+
+<body>
+	<div style="width:75%;"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+		<canvas id="canvas" width="1013" height="506" class="chartjs-render-monitor" style="display: block; width: 1013px; height: 506px;"></canvas>
+	</div>
+	<script>		
+		var config = {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: 'Thermometer',
+					backgroundColor: window.chartColors.red,
+					borderColor: window.chartColors.red,
+					data: [
+						0,100
+					],
+					fill: false,
+				}, {
+					label: 'ECG',
+					fill: false,
+					backgroundColor: window.chartColors.blue,
+					borderColor: window.chartColors.blue,
+					data: [
+						
+					],
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Chart.js Line Chart'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{						
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Time'
+						}
+					}],
+					yAxes: [{
+						ticks: {
+							suggestedMin: 0,
+							suggestedMax: 100
+						},
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}
+		};
+
+		var socket = io();
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			
+			window.myLine = new Chart(ctx, config);
+			config.data.datasets[0].data.pop();
+			config.data.datasets[0].data.pop();
+		};
+		
+		socket.on('chat', function(msg) {
+			// msg = msg.split('-')[0];			
+			var packet = parseInt(msg)
+			
+			if (config.data.datasets.length > 0) {				
+				config.data.labels.push('TimeStamp');
+				config.data.datasets[0].data.push(packet);
+				// config.data.datasets.forEach(function(dataset) {									
+				// 	dataset.data.push(packet);
+				// });
+
+				window.myLine.update();
+			}
+		});
+
+		
+	</script>
+
+
+
+</body></html>
