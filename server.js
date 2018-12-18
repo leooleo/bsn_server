@@ -49,9 +49,6 @@ var server = net.createServer(function(connection) {
 		
 		// Char separador
 		data = data.split('*')[0];
-		// Apenas parte inteira		
-		data = data.split('.')[0];
-		console.log("Transform " + data);
 		
 		// Broadcast to all clients
 		// var packet = data + '%' + '-' + get_correspondant_color(Number(data));

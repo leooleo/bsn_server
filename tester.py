@@ -7,9 +7,10 @@ host = socket.gethostname()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, 6060))
 
+data_file = open('bsn_output.txt', 'r')
+lines = data_file.readlines()
 
-while(True):
-    data = random.uniform(0,100)
-    packet = str(data) + '*'
+for line in lines:
+    packet = line + '*'
     s.sendall(str.encode(packet))
     sleep(1)

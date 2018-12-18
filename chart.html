@@ -1,54 +1,72 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)https://www.chartjs.org/samples/latest/charts/line/basic.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Line Chart</title>
+	
 	<script async="" src="files/analytics.js"></script><script src="files/Chart.bundle.js"></script><style type="text/css">/* Chart.js */
-@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+	@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
 	<script src="./files/utils.js"></script>
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 	<style>
-	canvas{
-		-moz-user-select: none;
-		-webkit-user-select: none;
-		-ms-user-select: none;
-	}
+		canvas{
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
 	</style>
 </head>
 
-<body>
-	<div style="width:75%;"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-		<canvas id="canvas" width="1013" height="506" class="chartjs-render-monitor" style="display: block; width: 1013px; height: 506px;"></canvas>
-	</div>
+<body>	
+	<canvas id="canvas" width="1013" height="506" class="chartjs-render-monitor" style="display: block; width: 1013px; height: 506px;"></canvas>	
+
+
 	<script>		
 		var config = {
 			type: 'line',
 			data: {
 				labels: [],
-				datasets: [{
+				datasets: [
+				{
 					label: 'Thermometer',
 					backgroundColor: window.chartColors.red,
 					borderColor: window.chartColors.red,
-					data: [
-						0,100
-					],
+					data: [],
 					fill: false,
-				}, {
+				}, 
+				{
 					label: 'ECG',
-					fill: false,
 					backgroundColor: window.chartColors.blue,
 					borderColor: window.chartColors.blue,
-					data: [
-						
-					],
+					data: [],
+					fill: false,
+				},
+				{
+					label: 'Oximeter',
+					backgroundColor: window.chartColors.green,
+					borderColor: window.chartColors.green,
+					data: [],
+					fill: false,
+				}, 
+				{
+					label: 'Bpms',
+					backgroundColor: window.chartColors.yellow,
+					borderColor: window.chartColors.yellow,
+					data: [],
+					fill: false,
+				}, 
+				{
+					label: 'Bpmd',
+					backgroundColor: window.chartColors.orange,
+					borderColor: window.chartColors.orange,
+					data: [],
+					fill: false,
 				}]
 			},
 			options: {
 				responsive: true,
 				title: {
 					display: true,
-					text: 'Chart.js Line Chart'
+					text: 'Evaluated packets'
 				},
 				tooltips: {
 					mode: 'index',
@@ -74,7 +92,7 @@
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Value'
+							labelString: 'Patien risk'
 						}
 					}]
 				}
@@ -84,31 +102,54 @@
 		var socket = io();
 
 		window.onload = function() {
-			var ctx = document.getElementById('canvas').getContext('2d');
-			
-			window.myLine = new Chart(ctx, config);
-			config.data.datasets[0].data.pop();
-			config.data.datasets[0].data.pop();
+			var ctx = document.getElementById('canvas').getContext('2d');			
+			window.myLine = new Chart(ctx, config);			
 		};
-		
-		socket.on('chat', function(msg) {
-			// msg = msg.split('-')[0];			
-			var packet = parseInt(msg)
-			
-			if (config.data.datasets.length > 0) {				
-				config.data.labels.push('TimeStamp');
-				config.data.datasets[0].data.push(packet);
-				// config.data.datasets.forEach(function(dataset) {									
-				// 	dataset.data.push(packet);
-				// });
 
-				window.myLine.update();
+		function split_packet(packet) {
+			var sensors = packet.split('/');
+			// console.log(sensors);
+			var raw_packets = []
+			var evaluated_packets = []
+			var patient_status = sensors[sensors.length -1];
+			for(var i=0; i < 5; i++) {
+				var evl_pack = sensors[i].split('=')[0]
+				var raw_pack = sensors[i].split('=')[1]
+				
+				raw_packets.push(raw_pack);
+				evaluated_packets.push(evl_pack);
 			}
+
+			return {raw: raw_packets, eval: evaluated_packets, patient_status: patient_status};
+		}
+
+		function get_current_time() {
+			var date = new Date;			
+			var hour = date.getHours();
+			var minutes = date.getMinutes();
+			var seconds = date.getSeconds();
+			
+
+			return (hour + ':' + minutes + ':' + seconds);
+		}
+
+		function update_sensors_chart(packet) {			
+			var time_stamp = get_current_time();
+
+			for(var i=0; i < 5; i++){
+				config.data.datasets[i].data.push(packet.eval[i]);
+			}
+			config.data.labels.push(time_stamp);
+			window.myLine.update();
+		}
+		
+		socket.on('chat', function(msg) {			
+			update_sensors_chart(split_packet(msg));
+			
 		});
 
 		
 	</script>
 
-
-
-</body></html>
+</body>
+</html>
