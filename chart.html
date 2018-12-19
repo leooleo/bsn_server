@@ -5,7 +5,7 @@
 	@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
 	<script src="./files/utils.js"></script>
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 	<style>
 		canvas{
@@ -13,10 +13,55 @@
 			-webkit-user-select: none;
 			-ms-user-select: none;
 		}
+		body {
+            font-family: "open sans", sans-serif;
+            background: #e6e6e6;
+        }
+        #content {
+            margin: 40px auto;
+            text-align: center;
+            width: 100%;
+        }
+
+        .cirlce_contents{
+            margin-top: 100px;
+        }        
+
+        #outer-circle {
+            margin: 0 auto 40px;
+            background-color: #727272;  
+            border-radius: 50%;
+            height: 500px;
+            width: 500px;
+            position: relative;
+        }
+        #inner-circle {
+            position: absolute;
+            background: #e6e6e6;
+            border-radius: 50%;
+            height: 300px;
+            width: 300px;
+        
+            text-align: center;
+            color: black;
+            font-size: 65px;
+        
+            top: 50%;
+            left: 50%;
+            margin: -150px 0px 0px -150px;
+        }
 	</style>
 </head>
 
-<body>	
+<body>
+	<div id="content">
+		<div id="outer-circle">
+			<div id="inner-circle">
+				<div class="cirlce_contents">--</div> 
+			</div>
+		</div>
+	</div>
+	<br>
 	<canvas id="canvas" class="chartjs-render-monitor" style="display: block; width: 100%; height: 90vh;"></canvas>	
 
 	<script>		
@@ -106,11 +151,12 @@
 		};
 
 		function split_packet(packet) {
+			var color = packet.split('-')[1];
 			var sensors = packet.split('/');
 			// console.log(sensors);
 			var raw_packets = []
 			var evaluated_packets = []
-			var patient_status = sensors[sensors.length -1];
+			var patient_status = sensors[sensors.length -1].split('-')[0];
 			for(var i=0; i < 5; i++) {
 				var evl_pack = sensors[i].split('=')[0]
 				var raw_pack = sensors[i].split('=')[1]
@@ -119,7 +165,7 @@
 				evaluated_packets.push(evl_pack);
 			}
 
-			return {raw: raw_packets, eval: evaluated_packets, patient_status: patient_status};
+			return {raw: raw_packets, eval: evaluated_packets, patient_status: patient_status, color: color};
 		}
 
 		function get_current_time() {
@@ -141,10 +187,23 @@
 			config.data.labels.push(time_stamp);
 			window.myLine.update();
 		}
+
+		function update_status_circle(packet) {
+
+			var color = packet.color;
+			// Remove as casas decimais e adiciona o ícone de porcentagem
+			var patient_status = (parseInt(packet.patient_status)) + '%';
+
+			$(".cirlce_contents").fadeOut(function() {        
+				$("#outer-circle").animate({backgroundColor: color}, 250);
+				$('.cirlce_contents').text(patient_status).fadeIn(250);    
+			});
+		}
 		
 		socket.on('chat', function(msg) {			
-			update_sensors_chart(split_packet(msg));
-			
+			var splitted_packet = split_packet(msg);
+			update_sensors_chart(splitted_packet);
+			update_status_circle(splitted_packet);
 		});
 
 		

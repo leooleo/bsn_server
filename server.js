@@ -11,21 +11,23 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/chart.html');
 });
 
-function get_correspondant_color(data) {	
+function get_correspondant_color(packet) {
+	var splited_packet = packet.split('/');
+	var patient_status = splited_packet[splited_packet.length-1];
 	switch (true) {
-		case data <= 10:			
+		case patient_status <= 10:			
 			// Blue
 			return '#3498db';
-		case data <= 30:
+		case patient_status <= 30:
 			// Green
 			return '#56ff61';
-		case data <= 60:
+		case patient_status <= 60:
 			// Yellow
 			return '#f7ff60';
-		case data <= 80:
+		case patient_status <= 80:
 			// Orange
 			return '#f7891b';
-		case data <= 100:
+		case patient_status <= 100:
 			return 'red';
 		default:
 			return 'gray';			
@@ -45,7 +47,7 @@ var server = net.createServer(function(connection) {
 		
 		// Remove \n caso exista
 		data = data.replace('\n', '');
-		console.log("Received from bsn " + data);
+		// console.log("Received from bsn " + data);
 		
 		// Char separador
 		data = data.split('*')[0];
@@ -53,6 +55,9 @@ var server = net.createServer(function(connection) {
 		// Broadcast to all clients
 		// var packet = data + '%' + '-' + get_correspondant_color(Number(data));
 		var packet = data;
+		var color  = get_correspondant_color(packet);
+		packet += '-' + color;
+		
 		io.emit('chat', packet  ,{ for: 'everyone' });
     });
 });
