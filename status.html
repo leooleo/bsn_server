@@ -4,18 +4,18 @@
     <style>
         body {
             font-family: "open sans", sans-serif;
-            background: #1b1b1b;
+            background: #e6e6e6;
         }
         #content {
             margin: 40px auto;
             text-align: center;
-            width: 600px;
-            }
-        .teste{
-            margin-top: 100px;
+            width: 100%;
         }
 
-        
+        .cirlce_contents{
+            margin-top: 100px;
+        }        
+
         #outer-circle {
             margin: 0 auto 40px;
             background-color: #727272;  
@@ -23,19 +23,16 @@
             height: 500px;
             width: 500px;
             position: relative;
-        
-            
-            
         }
         #inner-circle {
             position: absolute;
-            background: #1b1b1b;
+            background: #e6e6e6;
             border-radius: 50%;
             height: 300px;
             width: 300px;
         
             text-align: center;
-            color: white;
+            color: black;
             font-size: 65px;
         
             top: 50%;
@@ -46,12 +43,12 @@
 </head>
 
 <body>
-<div id="content"></div>
-<div id="outer-circle">
-    <div id="inner-circle">
-        <div class="teste">--</div> 
+<div id="content">
+    <div id="outer-circle">
+        <div id="inner-circle">
+            <div class="cirlce_contents">--</div> 
+        </div>
     </div>
-</div>
 </div>
 </body>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -61,13 +58,10 @@
 $(document).ready(function () {            
     var socket = io();        
     socket.on('chat', function(msg) {
-        var data = msg.split('-');
-        // alert(data[0]);
-        // alert(data[1]);
-        // alert(msg);
-        $(".teste").fadeOut(function() {        
+        var data = msg.split('-');    
+        $(".cirlce_contents").fadeOut(function() {        
             $("#outer-circle").animate({backgroundColor: data[1]}, 1000);
-            $('.teste').text(data[0]).fadeIn();    
+            $('.cirlce_contents').text(data[0]).fadeIn();    
         });
         
     });
