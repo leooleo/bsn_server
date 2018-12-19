@@ -20,10 +20,10 @@ function get_correspondant_color(packet) {
 			return '#3498db';
 		case patient_status <= 30:
 			// Green
-			return '#56ff61';
+			return '#00d824';
 		case patient_status <= 60:
 			// Yellow
-			return '#f7ff60';
+			return '#fff23d';
 		case patient_status <= 80:
 			// Orange
 			return '#f7891b';
@@ -52,8 +52,7 @@ var server = net.createServer(function(connection) {
 		// Char separador
 		data = data.split('*')[0];
 		
-		// Broadcast to all clients
-		// var packet = data + '%' + '-' + get_correspondant_color(Number(data));
+		// Broadcast to all clients		
 		var packet = data;
 		var color  = get_correspondant_color(packet);
 		packet += '-' + color;

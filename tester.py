@@ -9,8 +9,8 @@ s.connect((host, 6060))
 
 data_file = open('bsn_output.txt', 'r')
 lines = data_file.readlines()
-sleep(10)
+# sleep(10)
 for line in lines:
     packet = line + '*'
     s.sendall(str.encode(packet))
-    sleep(2.5)
+    sleep(1.5)
