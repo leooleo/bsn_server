@@ -6,8 +6,9 @@
 	<script src="./files/utils.js"></script>
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-	<style>
+	<script src="/socket.io/socket.io.js"></script>
+	
+	<style>		
 		canvas{
 			-moz-user-select: none;
 			-webkit-user-select: none;
@@ -17,17 +18,20 @@
             font-family: "open sans", sans-serif;
             background: #ffffff;
         }
-        #content {
-            margin: 40px auto;
+        #cirlce_wrapper {
+            /* margin: 40px auto; */
+			margin-right: 10vw;
+			margin-top: 8vh;			
             text-align: center;
-            width: 50%;
+            width: 35vw;
 			height: 85vh;
 			float: left;
         }		
 
         .cirlce_contents{
-            margin-top: 100px;
-        }        
+			text-align: center;
+            width: 100%;
+        }
 
         #outer-circle {
             margin: 0 auto 40px;
@@ -38,6 +42,8 @@
             position: relative;
         }
         #inner-circle {
+            display: flex;
+            align-items: center;
             position: absolute;
             background: #ffffff;
             border-radius: 50%;
@@ -51,20 +57,20 @@
             top: 50%;
             left: 50%;
             margin: -150px 0px 0px -150px;
-        }
+        }		
 	</style>
 </head>
 
 <body>
-	<div id="content">
+	<div id="cirlce_wrapper">
 		<div id="outer-circle">
 			<div id="inner-circle">
 				<div class="cirlce_contents">--</div> 
 			</div>
 		</div>
 	</div>
-
-	<canvas id="canvas" class="chartjs-render-monitor" style="width: 100vh;height: 95vh; float: left;"></canvas>	
+		
+	<canvas id="canvas" class="chartjs-render-monitor" style="width: 52vw; height: 95vh; float: left;"></canvas>	
 
 	<script>		
 		var config = {
