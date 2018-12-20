@@ -18,14 +18,13 @@
             font-family: "open sans", sans-serif;
             background: #ffffff;
         }
-        #cirlce_wrapper {
-            /* margin: 40px auto; */
+        #circle_wrapper {
 			margin-right: 10vw;
-			margin-top: 8vh;			
+			margin-top: 2vh;			
             text-align: center;
-            width: 35vw;
-			height: 85vh;
+            width: 35vw;			
 			float: left;
+			height: 48vh;
         }		
 
         .cirlce_contents{
@@ -35,6 +34,7 @@
 
         #outer-circle {
             margin: 0 auto 40px;
+			margin-top: 4vh;
             background-color: #a5a5a5;  
             border-radius: 50%;
             height: 500px;
@@ -57,21 +57,35 @@
             top: 50%;
             left: 50%;
             margin: -150px 0px 0px -150px;
-        }		
+        }
+
+		#raw_data {			
+			width: 50vw;
+			height: 35px;
+			font-size: 140%;
+			white-space: pre;
+			color: #4f4f4f;
+			text-align: left;
+		}
 	</style>
 </head>
 
 <body>
-	<div id="cirlce_wrapper">
-		<div id="outer-circle">
+	<div id="circle_wrapper">
+		<div id="raw_data">
+		
+		</div>
+
+		<div id="outer-circle">			
 			<div id="inner-circle">
 				<div class="cirlce_contents">--</div> 
 			</div>
 		</div>
 	</div>
-		
-	<canvas id="canvas" class="chartjs-render-monitor" style="width: 52vw; height: 95vh; float: left;"></canvas>	
-
+	
+	<canvas id="canvas" class="chartjs-render-monitor" style="width: 52vw; height: 95vh; float: left;"></canvas>			
+	
+	
 	<script>		
 		var config = {
 			type: 'line',
@@ -145,7 +159,7 @@
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Patien risk'
+							labelString: 'Risk to patient health(%)'
 						}
 					}]
 				}
@@ -208,11 +222,32 @@
 				$('.cirlce_contents').text(patient_status).fadeIn(250);    
 			});
 		}
+
+		function update_raw_data(packet) {
+			console.log(packet.raw);
+			var t  = parseFloat(packet.raw[0]).toFixed(2);
+			var e  = parseFloat(packet.raw[1]).toFixed(2);
+			var o  = parseFloat(packet.raw[2]).toFixed(2);
+			var bs = parseFloat(packet.raw[3]).toFixed(2);
+			var bd = parseFloat(packet.raw[4]).toFixed(2);
+			
+			var display_packet = t.toString() + 'º    ' 
+			display_packet += e.toString() + 'bpm    '
+			display_packet += o.toString() + '%    ';
+			display_packet += bs.toString() + 'mmhg    ';
+			display_packet += bd.toString() + 'mmhg';
+			console.log(display_packet);
+			
+		
+			$('#raw_data').text(display_packet).fadeIn(250);    
+			
+		}
 		
 		socket.on('chat', function(msg) {			
 			var splitted_packet = split_packet(msg);
 			update_sensors_chart(splitted_packet);
 			update_status_circle(splitted_packet);
+			update_raw_data(splitted_packet);
 		});
 
 		
