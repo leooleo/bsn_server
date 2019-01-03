@@ -2,15 +2,27 @@ var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var getJSON = require('get-json');
 
 
 app.use("/files", express.static(__dirname + "/files"));
 
 app.get('/', function(req, res){
-//   res.sendFile(__dirname + '/status.html');
-	res.sendFile(__dirname + '/chart.html');
+	res.sendFile(__dirname + '/home.html');
+	// res.sendFile(__dirname + '/chart.html');
 });
 
+// Pull available configurations from bsn
+app.get('/config', function(req, res){
+	getJSON('http://127.0.0.1:5000/config')
+    .then(function(json_data) {		
+		res.json(json_data)
+    }).catch(function(error) {
+		console.log(error);
+    });
+});
+
+// Give a color based on patient status
 function get_correspondant_color(packet) {
 	var splited_packet = packet.split('/');
 	var patient_status = splited_packet[splited_packet.length-1];
@@ -45,19 +57,19 @@ var server = net.createServer(function(connection) {
     connection.on('data', function(data) {		
 		data = data.toString();
 		
-		// Remove \n caso exista
+		// Remove \n if there are any
 		data = data.replace('\n', '');
 		// console.log("Received from bsn " + data);
 		
-		// Char separador
+		// Separate package
 		data = data.split('*')[0];
 		
-		// Broadcast to all clients		
 		var packet = data;
 		var color  = get_correspondant_color(packet);
 		packet += '-' + color;
 		
-		io.emit('chat', packet  ,{ for: 'everyone' });
+		// Broadcast to all clients the packet
+		io.emit('chat', packet , { for: 'everyone' });
     });
 });
 
