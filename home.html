@@ -6,14 +6,21 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <h1>BSN</h1>
     Please select how you want to simulate your patient:
-    <select class="custom-select" id="select_bar">
-        <option selected>...</option>            
-    </select>        
-    
+    <div class="input-group mb-3" style="width: 50%;">
+        <select class="custom-select" id="select_bar">
+            <option selected>...</option>            
+        </select>        
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="button" id="sim_start">Start simmulation</button>
+        </div>
+    </div>
     <script>
+        var socket = io();
+
         // Add options to select bar
         function add_options(object) {
             options_text = []            
@@ -46,6 +53,30 @@
                 }
             });            
         });
+
+        $( '#sim_start' ).click(function() {
+            // Get configuration selected
+            var select = $('#select_bar').find(":selected").text();            
+
+            // Ask user to select something
+            if(select == '...') {
+                alert('Please select a property');
+                return;
+            }
+
+            select = select.replace('By ', '')
+            select = select.replace(' on ', '/')
+
+            // Send to bsn start signal and path to configuration
+            socket.emit('bsn_info', 'start:' + select);  
+            socket.on('bsn_info', function(msg) {
+                if(msg != 'ok') {
+                    alert('Bsn couldn\'t start: ' + msg);
+                }                
+            });  
+        });
+
+        
         
     </script>
 </html>

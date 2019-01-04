@@ -243,7 +243,7 @@
 			
 		}
 		
-		socket.on('chat', function(msg) {			
+		socket.on('chart_info', function(msg) {			
 			var splitted_packet = split_packet(msg);
 			update_sensors_chart(splitted_packet);
 			update_status_circle(splitted_packet);

@@ -3,13 +3,18 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var getJSON = require('get-json');
+var net = require('net');
+var request = require('request');
 
 
 app.use("/files", express.static(__dirname + "/files"));
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/home.html');
-	// res.sendFile(__dirname + '/chart.html');
+});
+
+app.get('/monitor', function(req, res) {
+	res.sendFile(__dirname + '/chart.html');
 });
 
 // Pull available configurations from bsn
@@ -46,7 +51,6 @@ function get_correspondant_color(packet) {
 	}	
 }
 
-var net = require('net');
 var server = net.createServer(function(connection) { 
     console.log('bsn connected');
 
@@ -69,8 +73,41 @@ var server = net.createServer(function(connection) {
 		packet += '-' + color;
 		
 		// Broadcast to all clients the packet
-		io.emit('chat', packet , { for: 'everyone' });
+		io.emit('chart_info', packet , { for: 'everyone' });
     });
+});
+
+// Http request to start bsn
+function send_start_signal(path) {
+	console.log('Path: ' + path);
+	var url = 'http://127.0.0.1:5000/start?path=' + path;		
+	request(url, function (error, response, body) {
+		if(error != null || response && response.statusCode != 200 || body != 'ok') {
+			console.log('error:', error);
+			console.log('statusCode:', response && response.statusCode);
+			console.log('body:', body);
+
+			// Emit to client error ocurred
+			io.emit('bsn_info', body);
+		}
+		else {
+			// Emit to client that it should proceed
+			io.emit('bsn_info', 'ok');
+		}
+		
+	});
+}
+
+io.on('connection', function(socket) {
+	// Wait for start or stop message
+	socket.on('bsn_info', function(msg) {
+		// If the message is a start request send signal to bsn api
+		if(msg.search('start:') != -1) {
+			var path = msg.replace('start:','');
+			send_start_signal(path)
+		}
+		//TODO: colocar stop aq
+	});
 });
 
 server.listen(6060, function() { 
