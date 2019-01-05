@@ -43,8 +43,9 @@ $( '#sim_stop' ).click(function() {
         if(msg != 'ok') {
             alert('Bsn couldn\'t stop: ' + msg);
         }
-        else {
+        else {            
             $('#danger_message_group').hide();
+            window.location.href = '/';
         }
         
     });

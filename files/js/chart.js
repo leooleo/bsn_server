@@ -1,3 +1,4 @@
+// Chart configurations
 var config = {
     type: 'line',
     data: {
@@ -89,13 +90,14 @@ window.onload = function() {
     window.myLine = new Chart(ctx, config);			
 };
 
+// Transforms a string packet into variables
 function split_packet(packet) {
     var color = packet.split('-')[1];
-    var sensors = packet.split('/');
-    // console.log(sensors);
+    var sensors = packet.split('/');    
     var raw_packets = []
     var evaluated_packets = []
     var patient_status = sensors[sensors.length -1].split('-')[0];
+
     for(var i=0; i < 5; i++) {
         var evl_pack = sensors[i].split('=')[0]
         var raw_pack = sensors[i].split('=')[1]
@@ -125,30 +127,32 @@ function update_sensors_chart(packet) {
     }
     config.data.labels.push(time_stamp);
 
+    // Consume first packet if there are at least 10 packets
     if(config.data.datasets[0].data.length > 9) {
         for(var i=0; i < 5; i++) {
-            config.data.datasets[i].data.splice(0,1);            
+            config.data.datasets[i].data.splice(0,1);
         }
         config.data.labels.splice(0,1);
     }    
-    
+
     window.myLine.update();
 }
 
 function update_status_circle(packet) {
 
     var color = packet.color;
-    // Remove as casas decimais e adiciona o ícone de porcentagem
+    // Remove decimal cases and put percentage char
     var patient_status = (parseInt(packet.patient_status)) + '%';
 
+    // Update css
     $(".cirlce_contents").fadeOut(function() {        
         $("#outer-circle").animate({backgroundColor: color}, 250);
         $('.cirlce_contents').text(patient_status).fadeIn(250);    
     });
 }
 
+// Display the new raw data above the circle
 function update_raw_data(packet) {
-    // console.log(packet.raw);
     var t  = parseFloat(packet.raw[0]).toFixed(2);
     var e  = parseFloat(packet.raw[1]).toFixed(2);
     var o  = parseFloat(packet.raw[2]).toFixed(2);
@@ -160,7 +164,6 @@ function update_raw_data(packet) {
     display_packet += o.toString() + '%    ';
     display_packet += bs.toString() + 'mmhg    ';
     display_packet += bd.toString() + 'mmhg';
-    // console.log(display_packet);
     
 
     $('#raw_data').text(display_packet).fadeIn(250);    

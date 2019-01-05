@@ -17,7 +17,7 @@ app.get('/monitor', function(req, res) {
 	res.sendFile(__dirname + '/files/html/chart.html');
 });
 
-// Pull available configurations from bsn
+// Pull available configurations from bsn as json
 app.get('/config', function(req, res){
 	getJSON('http://127.0.0.1:5000/config')
     .then(function(json_data) {		
