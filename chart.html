@@ -67,6 +67,16 @@
 			color: #4f4f4f;
 			text-align: left;
 		}
+		.btn {
+			border: none;
+			color: white;
+			padding: 14px 28px;
+			cursor: pointer;
+			font-size: 125%;
+		}
+		.danger {background-color: #f44336;}
+		.danger:hover {background: #da190b;}
+
 	</style>
 </head>
 
@@ -81,6 +91,7 @@
 				<div class="cirlce_contents">--</div> 
 			</div>
 		</div>
+		<button class="btn danger" id="stop_sim">Stop simulation</button>
 	</div>
 	
 	<canvas id="canvas" class="chartjs-render-monitor" style="width: 52vw; height: 95vh; float: left;"></canvas>			
@@ -167,6 +178,11 @@
 		};
 
 		var socket = io();
+
+		// Stop simmulation on button click
+		$('#stop_sim').click( function() {			
+			socket.emit('bsn_info', 'stop' );
+		});
 
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');			

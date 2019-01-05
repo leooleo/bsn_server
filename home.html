@@ -18,13 +18,17 @@
             <button class="btn btn-primary" type="button" id="sim_start">Start simmulation</button>
         </div>        
     </div>
-    <div class="input-group mb-3" style="width: 50%;" id="danger_message_group">
+
+    <div class="input-group mb-3" style="width: 75%;" id="danger_message_group">
         <div class="alert alert-danger" role="alert" id="danger_message" style="height: 50px">
         
         </div>
         <div class="input-group-append" style="height: 50px;">
             <button class="btn btn-danger" type="button" id="sim_stop">Stop simmulation</button>
-        </div>        
+        </div>
+        <div class="input-group-append" style="height: 50px;">
+            <button class="btn btn-success" type="button" id="sim_monitor">Monitor simmulation</button>
+        </div>
     </div>
     <script>
 
@@ -64,7 +68,9 @@
             });            
         });
 
-        
+        $( '#sim_monitor' ).click(function() {
+            window.location.href = '/monitor';
+        });
         $( '#sim_stop' ).click(function() {
             socket.emit('bsn_info', 'stop' );
             socket.on('bsn_info', function(msg) {
@@ -95,7 +101,7 @@
             socket.emit('bsn_info', 'start:' + select);  
             socket.on('bsn_info', function(msg) {
                 if(msg == 'already started') {
-                    var message = 'Bsn ' + msg + ', would you like to stop it?'
+                    var message = 'Bsn ' + msg + ', would you like to stop or monitor it?'
                     $('#danger_message').html(message);
                     $('#danger_message_group').show();
                 }
