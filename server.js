@@ -10,11 +10,11 @@ var request = require('request');
 app.use("/files", express.static(__dirname + "/files"));
 
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/home.html');
+	res.sendFile(__dirname + '/files/html/home.html');
 });
 
 app.get('/monitor', function(req, res) {
-	res.sendFile(__dirname + '/chart.html');
+	res.sendFile(__dirname + '/files/html/chart.html');
 });
 
 // Pull available configurations from bsn
