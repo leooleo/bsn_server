@@ -16,9 +16,19 @@
         </select>        
         <div class="input-group-append">
             <button class="btn btn-primary" type="button" id="sim_start">Start simmulation</button>
+        </div>        
+    </div>
+    <div class="input-group mb-3" style="width: 50%;" id="danger_message_group">
+        <div class="alert alert-danger" role="alert" id="danger_message" style="height: 50px">
+        
         </div>
+        <div class="input-group-append" style="height: 50px;">
+            <button class="btn btn-danger" type="button" id="sim_stop">Stop simmulation</button>
+        </div>        
     </div>
     <script>
+
+        $('#danger_message_group').hide();
         var socket = io();
 
         // Add options to select bar
@@ -54,6 +64,20 @@
             });            
         });
 
+        
+        $( '#sim_stop' ).click(function() {
+            socket.emit('bsn_info', 'stop' );
+            socket.on('bsn_info', function(msg) {
+                if(msg != 'ok') {
+                    alert('Bsn couldn\'t stop: ' + msg);
+                }
+                else {
+                    $('#danger_message_group').hide();
+                }
+                
+            });
+        });
+
         $( '#sim_start' ).click(function() {
             // Get configuration selected
             var select = $('#select_bar').find(":selected").text();            
@@ -70,9 +94,17 @@
             // Send to bsn start signal and path to configuration
             socket.emit('bsn_info', 'start:' + select);  
             socket.on('bsn_info', function(msg) {
-                if(msg != 'ok') {
+                if(msg == 'already started') {
+                    var message = 'Bsn ' + msg + ', would you like to stop it?'
+                    $('#danger_message').html(message);
+                    $('#danger_message_group').show();
+                }
+                else if(msg != 'ok') {
                     alert('Bsn couldn\'t start: ' + msg);
-                }                
+                }
+                else {
+                    window.location.href = '/monitor';
+                }
             });  
         });
 

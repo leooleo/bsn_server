@@ -77,6 +77,25 @@ var server = net.createServer(function(connection) {
     });
 });
 
+function send_stop_signal() {
+	var url = 'http://127.0.0.1:5000/stop';
+	request(url, function (error, response, body) {
+		if(error != null || response && response.statusCode != 200 || body != 'ok') {
+			console.log('error:', error);
+			console.log('statusCode:', response && response.statusCode);
+			console.log('body:', body);
+
+			// Emit to client error ocurred
+			io.emit('bsn_info', body);
+		}
+		else {
+			// Emit to client that it should proceed
+			io.emit('bsn_info', 'ok');
+		}
+	});
+		
+}
+
 // Http request to start bsn
 function send_start_signal(path) {
 	console.log('Path: ' + path);
@@ -93,20 +112,22 @@ function send_start_signal(path) {
 		else {
 			// Emit to client that it should proceed
 			io.emit('bsn_info', 'ok');
-		}
-		
+		}		
 	});
 }
 
 io.on('connection', function(socket) {
 	// Wait for start or stop message
 	socket.on('bsn_info', function(msg) {
+		
+		if(msg == 'stop') {
+			send_stop_signal();
+		}
 		// If the message is a start request send signal to bsn api
-		if(msg.search('start:') != -1) {
+		else if(msg.search('start:') != -1) {
 			var path = msg.replace('start:','');
 			send_start_signal(path)
-		}
-		//TODO: colocar stop aq
+		}		
 	});
 });
 
