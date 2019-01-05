@@ -120,10 +120,18 @@ function get_current_time() {
 function update_sensors_chart(packet) {			
     var time_stamp = get_current_time();
 
-    for(var i=0; i < 5; i++){
-        config.data.datasets[i].data.push(packet.eval[i]);
+    for(var i=0; i < 5; i++) {
+        config.data.datasets[i].data.push(packet.eval[i]);        
     }
     config.data.labels.push(time_stamp);
+
+    if(config.data.datasets[0].data.length > 9) {
+        for(var i=0; i < 5; i++) {
+            config.data.datasets[i].data.splice(0,1);            
+        }
+        config.data.labels.splice(0,1);
+    }    
+    
     window.myLine.update();
 }
 
@@ -140,7 +148,7 @@ function update_status_circle(packet) {
 }
 
 function update_raw_data(packet) {
-    console.log(packet.raw);
+    // console.log(packet.raw);
     var t  = parseFloat(packet.raw[0]).toFixed(2);
     var e  = parseFloat(packet.raw[1]).toFixed(2);
     var o  = parseFloat(packet.raw[2]).toFixed(2);
@@ -152,7 +160,7 @@ function update_raw_data(packet) {
     display_packet += o.toString() + '%    ';
     display_packet += bs.toString() + 'mmhg    ';
     display_packet += bd.toString() + 'mmhg';
-    console.log(display_packet);
+    // console.log(display_packet);
     
 
     $('#raw_data').text(display_packet).fadeIn(250);    
