@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" type="text/css" href="../files/css/home_style.css">
+    </head>    
+<body>
+    <div id="head">
+        <div style="font-size:550%">Customizization menu</div>
+        <br>
+        <br>
+        <br>
+        <div style="font-size:250%">Create here your desired custom configuration</div>                
+    </div > 
+
+    <div id="simple_header">Insert your desired data</div>    
+    <div id="custom_section">
+        <form action="/name" method="get">
+            <div class="form-group">
+
+                <label for="markov">Markov imported from</label>
+                <select class="custom-select" id="mar" name="markov">
+                    <option selected>Choose...</option>
+                    <option value="bmi normal">bmi normal</option>                    
+                </select>        
+
+                <label for="tda" style="margin-top: 5vh;">Thermometer data accuracy</label>
+                <input id="tda" name="tda" type="number" class="form-control" placeholder="100" min="0" max="100">
+                <label for="tca" style="margin-top: 5vh;">Thermometer communication accuracy</label>
+                <input id="tca" name="tca" type="number" class="form-control" placeholder="100"  min="0" max="100">
+
+                <label for="oda" style="margin-top: 5vh;">Oximeter data accuracy</label>
+                <input id="oda" name="oda" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <label for="oca" style="margin-top: 5vh;">Oximeter communication accuracy</label>
+                <input id="oca" name="oca" type="number" class="form-control" placeholder="100"  min="0" max="100">
+
+                <label for="eda" style="margin-top: 5vh;">ECG data accuracy</label>
+                <input id="eda" name="eda" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <label for="eca" style="margin-top: 5vh;">ECG communication accuracy</label>
+                <input id="eca" name="eca" type="number" class="form-control" placeholder="100"  min="0" max="100">
+
+                <label for="sda" style="margin-top: 5vh;">Bloodpressure systolic data accuracy</label>
+                <input id="sda" name="sda" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <label for="sca" style="margin-top: 5vh;">Bloodpressure systolic communication accuracy</label>
+                <input id="sca" name="sca" type="number" class="form-control" placeholder="100"  min="0" max="100">
+
+                <label for="dda" style="margin-top: 5vh;">Bloodpressure diastolic data accuracy</label>
+                <input id="dda" name="dda" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <label for="dca" style="margin-top: 5vh;">Bloodpressure diastolic communication accuracy</label>
+                <input id="dca" name="dca" type="number" class="form-control" placeholder="100"  min="0" max="100">        
+                <div id="button_section">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </div>
+                </div>                
+        </form>
+    </div>
+</body>
+
+
+</html>

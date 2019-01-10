@@ -1,0 +1,38 @@
+########## Thermometer ##########
+# markov chain
+thermometer.state0 = 10,10,10,20,40
+thermometer.state1 = 10,10,10,20,40
+thermometer.state2 = 10,10,10,20,40
+thermometer.state3 = 10,10,10,20,40
+thermometer.state4 = 10,10,10,20,40
+
+########## Oximeter ##########
+# markov chain
+oximeter.state0 = 0,0,0,0,0
+oximeter.state1 = 0,0,0,0,0
+oximeter.state2 = 0,0,20,20,60
+oximeter.state3 = 0,0,20,20,60
+oximeter.state4 = 0,0,20,20,60
+
+########## Electrocardiograph (ECG) ##########
+# markov chain
+ecg.state0 = 10,10,10,20,40
+ecg.state1 = 10,10,10,20,40
+ecg.state2 = 10,10,10,20,40
+ecg.state3 = 10,10,10,20,40
+ecg.state4 = 10,10,10,20,40
+
+########## Sphygmomanometer (bloodpressure) ##########
+# markov chain (diastolic pressure)
+bloodpressure.diasstate0 = 0,0,0,0,0
+bloodpressure.diasstate1 = 0,0,0,0,0
+bloodpressure.diasstate2 = 0,0,20,20,60
+bloodpressure.diasstate3 = 0,0,20,20,60
+bloodpressure.diasstate4 = 0,0,20,20,60
+
+# markov chain (systolic pressure)
+bloodpressure.syststate0 = 0,0,0,0,0
+bloodpressure.syststate1 = 0,0,0,0,0
+bloodpressure.syststate2 = 0,0,20,20,60
+bloodpressure.syststate3 = 0,0,20,20,60
+bloodpressure.syststate4 = 0,0,20,20,60

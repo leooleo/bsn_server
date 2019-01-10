@@ -1,0 +1,59 @@
+# BSN configuration file
+
+### Static Files ###
+# Defines the percentages to consider low, moderate or high risk
+global.lowrisk = 0,20
+global.midrisk = 21,65
+global.highrisk = 66,100
+
+########## CentralHub ##########
+# Define if BSN is connected with the server and the port
+centralhub.connect = 1
+centralhub.port = 6060
+centralhub.ip = localhost
+
+# Define if CentralHub will persist data and where
+centralhub.persist = 1
+centralhub.path = centralhub_output.csv
+
+# risk values (diastolic pressure)
+bloodpressure.diasLowRisk = 0,80
+bloodpressure.diasMidRisk = 80,90
+bloodpressure.diasHighRisk = 90,300
+
+# risk values
+thermometer.HighRisk0 = 0,31.99
+thermometer.MidRisk0 = 32,35.99
+thermometer.LowRisk = 36,37.99
+thermometer.MidRisk1 = 38,40.99
+thermometer.HighRisk1 = 41,50
+
+# risk values
+oximeter.LowRisk = 65,100
+oximeter.MidRisk = 55,65
+oximeter.HighRisk = 0,55
+
+# risk values
+ecg.HighRisk0 = 0,70
+ecg.MidRisk0 = 70,85
+ecg.LowRisk = 85,97
+ecg.MidRisk1 = 97,115
+ecg.HighRisk1 = 115,300
+
+# risk values (systolic pressure)
+bloodpressure.systLowRisk = 0,120
+bloodpressure.systMidRisk = 120,140
+bloodpressure.systHighRisk = 140,300
+
+# persistence
+thermometer.persist = 1
+thermometer.path = thermometer_output.csv
+# persistence
+oximeter.persist = 1
+oximeter.path = oximeter_output.csv
+# persistence
+ecg.persist = 1
+ecg.path = ecg_output.csv
+# persistence
+bloodpressure.persist = 1
+bloodpressure.path = bloodpressure_output.csv

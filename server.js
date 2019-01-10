@@ -16,6 +16,18 @@ app.get('/', function(req, res){
 app.get('/monitor', function(req, res) {
 	res.sendFile(__dirname + '/files/html/chart.html');
 });
+app.get('/custom', function(req, res) {
+	res.sendFile(__dirname + '/files/html/customize.html');
+});
+
+app.get('/name', function(req, res) {
+	for(i in req.query) {
+		console.log(i);
+		console.log(req.query[i]);
+	}
+	console.log((req.query));	
+	res.send('You sent the name "' + req.query.markov + '".');
+});
 
 // Pull available configurations from bsn as json
 app.get('/config', function(req, res){
