@@ -5,6 +5,8 @@ var io = require('socket.io')(http);
 var getJSON = require('get-json');
 var net = require('net');
 var request = require('request');
+var fs = require("fs");
+var path = require('path');
 
 
 app.use("/files", express.static(__dirname + "/files"));
@@ -20,13 +22,42 @@ app.get('/custom', function(req, res) {
 	res.sendFile(__dirname + '/files/html/customize.html');
 });
 
-app.get('/name', function(req, res) {
-	for(i in req.query) {
-		console.log(i);
-		console.log(req.query[i]);
+function read_configs_contents(file_name) {	
+	var file_path = path.join(__dirname, 'files', 'configs', file_name);
+	return fs.readFileSync(file_path, 'utf8');
+}
+
+function create_custom_config(custom_params) {
+	var static_content  = '';
+	var dynamic_content = '';
+
+	static_content = read_configs_contents('static');
+	static_content += '\n';
+	static_content += read_configs_contents(custom_params.markov);
+	static_content += '\n';
+
+	delete custom_params.markov;
+
+	for(var key in custom_params) {		
+		var value = custom_params[key];
+		dynamic_content += key + ' = ' + value + '\n';
 	}
-	console.log((req.query));	
-	res.send('You sent the name "' + req.query.markov + '".');
+
+	return static_content + '\n' + dynamic_content;
+}
+
+app.get('/send_config', function(req, res) {
+	var file_name = req.query.name;
+	delete req.query.name;
+	var contents  = create_custom_config(req.query);
+
+	request({
+		url: 'http://127.0.0.1:5000/new_conf',
+		method: "POST",
+		json: {'name': file_name, 'content': contents} 
+	});
+		 
+	res.redirect('/');
 });
 
 // Pull available configurations from bsn as json

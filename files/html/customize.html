@@ -22,39 +22,43 @@
 
     <div id="simple_header">Insert your desired data</div>    
     <div id="custom_section">
-        <form action="/name" method="get">
+        <form action="/send_config" method="get">
             <div class="form-group">
 
                 <label for="markov">Markov imported from</label>
-                <select class="custom-select" id="mar" name="markov">
-                    <option selected>Choose...</option>
+                <select class="custom-select" id="mar" name="markov" required>                    
                     <option value="bmi normal">bmi normal</option>                    
                 </select>        
 
                 <label for="tda" style="margin-top: 5vh;">Thermometer data accuracy</label>
-                <input id="tda" name="tda" type="number" class="form-control" placeholder="100" min="0" max="100">
+                <input id="tda" name="thermometer.data_accuracy" type="number" class="form-control" value="100" min="0" max="100">
                 <label for="tca" style="margin-top: 5vh;">Thermometer communication accuracy</label>
-                <input id="tca" name="tca" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <input id="tca" name="thermometer.comm_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
 
                 <label for="oda" style="margin-top: 5vh;">Oximeter data accuracy</label>
-                <input id="oda" name="oda" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <input id="oda" name="oximeter.data_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
                 <label for="oca" style="margin-top: 5vh;">Oximeter communication accuracy</label>
-                <input id="oca" name="oca" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <input id="oca" name="oximeter.comm_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
 
                 <label for="eda" style="margin-top: 5vh;">ECG data accuracy</label>
-                <input id="eda" name="eda" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <input id="eda" name="ecg.data_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
                 <label for="eca" style="margin-top: 5vh;">ECG communication accuracy</label>
-                <input id="eca" name="eca" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <input id="eca" name="ecg.comm_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
 
                 <label for="sda" style="margin-top: 5vh;">Bloodpressure systolic data accuracy</label>
-                <input id="sda" name="sda" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <input id="sda" name="bloodpressure.systdata_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
                 <label for="sca" style="margin-top: 5vh;">Bloodpressure systolic communication accuracy</label>
-                <input id="sca" name="sca" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <input id="sca" name="bloodpressure.systcomm_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
 
                 <label for="dda" style="margin-top: 5vh;">Bloodpressure diastolic data accuracy</label>
-                <input id="dda" name="dda" type="number" class="form-control" placeholder="100"  min="0" max="100">
+                <input id="dda" name="bloodpressure.diasdata_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
                 <label for="dca" style="margin-top: 5vh;">Bloodpressure diastolic communication accuracy</label>
-                <input id="dca" name="dca" type="number" class="form-control" placeholder="100"  min="0" max="100">        
+                <input id="dca" name="bloodpressure.diascomm_accuracy" type="number" class="form-control" value="100"  min="0" max="100">
+                
+                <label for="name" style="margin-top: 5vh;">Name of your custom config</label>
+                <input type="text" name="name" class="form-control" required="true" id="name" placeholder="Insert the name here">
+
+
                 <div id="button_section">
                     <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                 </div>
