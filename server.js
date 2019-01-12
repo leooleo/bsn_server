@@ -22,15 +22,18 @@ app.get('/custom', function(req, res) {
 	res.sendFile(__dirname + '/files/html/customize.html');
 });
 
+// Read a config inside the configs folder
 function read_configs_contents(file_name) {	
 	var file_path = path.join(__dirname, 'files', 'configs', file_name);
 	return fs.readFileSync(file_path, 'utf8');
 }
 
+// Create a custom config based on the protocols sent by the form at /custom
 function create_custom_config(custom_params) {
 	var static_content  = '';
 	var dynamic_content = '';
 
+	// Read static content and requested markov
 	static_content = read_configs_contents('static');
 	static_content += '\n';
 	static_content += read_configs_contents(custom_params.markov);
@@ -46,11 +49,13 @@ function create_custom_config(custom_params) {
 	return static_content + '\n' + dynamic_content;
 }
 
+// Send the custom configuration to the BSN
 app.get('/send_config', function(req, res) {
 	var file_name = req.query.name;
 	delete req.query.name;
 	var contents  = create_custom_config(req.query);
 
+	// Send data as Json
 	request({
 		url: 'http://127.0.0.1:5000/new_conf',
 		method: "POST",
@@ -70,7 +75,7 @@ app.get('/config', function(req, res){
     });
 });
 
-// Give a color based on patient status
+// Returns a color based on patient status
 function get_correspondant_color(packet) {
 	var splited_packet = packet.split('/');
 	var patient_status = splited_packet[splited_packet.length-1];
