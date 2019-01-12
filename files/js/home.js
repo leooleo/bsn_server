@@ -23,8 +23,7 @@ function add_options(object) {
     }            
 }
 
-$( document ).ready(function() {            
-    var configurations = '';
+$( document ).ready(function() {
     $.ajax({
         url: '/config',                       
         success : function(json) {
@@ -32,6 +31,10 @@ $( document ).ready(function() {
             add_options(json);
         }
     });            
+});
+
+$( '#custom-button' ).click(function() {    
+    window.location.href = '/custom';
 });
 
 $( '#sim_monitor' ).click(function() {
