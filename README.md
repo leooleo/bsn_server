@@ -18,13 +18,17 @@ Above, each sensor raw data will be displayed. They are on the order: Thermomete
 On the right there is a real-time graph produced using ChartJs. It is responsible to display each sensor risk chance from 0% to 100%. The average of the 5 sensors should provide the patient risk diplayed on the circle.  
 Finally, below the circle there is a Stop button, responsible for stopping the execution for all the clients.
 
+To illustrate, please do check this printscreen taken from a simmulation.
+![alt text](images/sim.png)
+
+
 ## Instalation & execution
 Installation:
-´´´
+```
 npm install
-´´´
+```
   
 Execution:
-´´´
+```
 node server.js
-´´´
+```
