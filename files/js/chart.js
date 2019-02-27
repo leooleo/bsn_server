@@ -1,3 +1,13 @@
+// Firebase configurations
+var firebase_config = {
+    apiKey: "AIzaSyCzp5dmdyQBhIe_Qu7GDYrdfzxc_8U2a3I",
+    authDomain: "my-project-1516369881504.firebaseapp.com",
+    databaseURL: "https://my-project-1516369881504.firebaseio.com",
+    projectId: "my-project-1516369881504",
+    storageBucket: "my-project-1516369881504.appspot.com",
+    messagingSenderId: "123204586316"
+};
+
 // Chart configurations
 var config = {
     type: 'line',
@@ -78,16 +88,19 @@ var config = {
     }
 };
 
-var socket = io();
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
-// Stop simmulation on button click
-$('#stop_sim').click( function() {			
-    socket.emit('bsn_info', 'stop' );
-});
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
 
-window.onload = function() {
-    var ctx = document.getElementById('canvas').getContext('2d');			
-    window.myLine = new Chart(ctx, config);			
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
 };
 
 // Transforms a string packet into variables
@@ -151,6 +164,32 @@ function update_status_circle(packet) {
     });
 }
 
+// Returns a color based on patient status
+function get_correspondant_color(packet) {
+    var splited_packet = packet.split('/');
+    
+    var patient_status = splited_packet[splited_packet.length-1];
+    console.log('============ ' + patient_status.toString());
+	switch (true) {
+		case patient_status <= 10:			
+			// Blue
+			return '#3498db';
+		case patient_status <= 30:
+			// Green
+			return '#00d824';
+		case patient_status <= 60:
+			// Yellow
+			return '#fff23d';
+		case patient_status <= 80:
+			// Orange
+			return '#f7891b';
+		case patient_status <= 100:
+			return 'red';
+		default:
+			return 'gray';			
+	}	
+}
+
 // Display the new raw data above the circle
 function update_raw_data(packet) {
     var t  = parseFloat(packet.raw[0]).toFixed(2);
@@ -167,11 +206,21 @@ function update_raw_data(packet) {
     
 
     $('#raw_data').text(display_packet).fadeIn(250);    
-    
 }
 
-socket.on('chart_info', function(msg) {			
-    var splitted_packet = split_packet(msg);
+firebase.initializeApp(firebase_config);
+
+var nameRef = firebase.database().ref().child('sessions/' + getUrlParameter('session'));
+
+window.onload = function() {
+    var ctx = document.getElementById('canvas').getContext('2d');			
+    window.myLine = new Chart(ctx, config);    
+};
+
+nameRef.on('value', function(snap) {
+    var msg = snap.val()['data'];
+    var color = get_correspondant_color(msg);
+    var splitted_packet = split_packet(msg + '-' + color);
     update_sensors_chart(splitted_packet);
     update_status_circle(splitted_packet);
     update_raw_data(splitted_packet);
