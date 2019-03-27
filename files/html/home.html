@@ -1,14 +1,14 @@
 <html>    
     <head>            
-    <script type = "text/javascript" 
-        src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
-    </script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script type = "text/javascript" 
+            src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+        </script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="/socket.io/socket.io.js"></script>    
-    <link rel="stylesheet" type="text/css" href="../files/css/home_style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+        <link rel="stylesheet" type="text/css" href="../files/css/home_style.css">
     
     </head>
 
@@ -51,7 +51,23 @@
             To remotely execute, the BSN relies on an API written on Python3, which provides every feature available for this server. You can check our repositories used for the BSN on our own Gits, located on the page bottom.
     </div>
 
-    <div id="simple_header">Simulation</div>
+    <div id="simple_header">Simulation Sessions</div>
+    <div id="project_description">
+        You can choose some of the already available(if there are any) sessions to monitor
+        <br>
+        <br>
+        <div class="input-group mb-3" style="width: 60%;" id="select_wrapper">
+            <select class="custom-select" id="sessions_select_bar">
+                <option selected>...</option>            
+            </select>        
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" id="session_monitor_btn">Monitor simmulation</button>
+            </div>        
+        </div>
+    </div>
+
+
+    <!-- <div id="simple_header">Simulation</div>
     <div id="project_description">
             Now you may select one of our pre-configured patient profiles.
             <br>
@@ -89,7 +105,7 @@
         <div class="input-group-append" style="height: 50px;">
             <button class="btn btn-success" type="button" id="sim_monitor">Monitor simmulation</button>
         </div>
-    </div>    
+    </div>     -->
     <div id="us_section">
         <div style="font-size: 150%; margin-left: 60px;">About the dev's</div>
         <div id="credentials">

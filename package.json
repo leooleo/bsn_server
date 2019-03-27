@@ -1,11 +1,12 @@
 {
-    "name": "teste",
-    "version": "0.0.1",
-    "description": "my first socket.io app",
-    "dependencies": {
-        "express": "^4.16.4",
-        "get-json": "^1.0.1",
-        "request": "^2.88.0",
-        "socket.io": "^2.1.1"
-    }
+  "name": "teste",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {
+    "express": "^4.16.4",
+    "get-json": "^1.0.1",
+    "nodemon": "^1.18.10",
+    "request": "^2.88.0",
+    "socket.io": "^2.1.1"
+  }
 }
