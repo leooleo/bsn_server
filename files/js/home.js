@@ -28,6 +28,7 @@ $('#session_monitor_btn').click(function () {
         alert('Please select a session');
         return;
     }
+    window.open('/sessionCreate?=' + selected_session);
     window.location.replace('/monitor?session=' + selected_session);
 });
 
