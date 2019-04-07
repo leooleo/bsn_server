@@ -28,8 +28,9 @@ $('#session_monitor_btn').click(function () {
         alert('Please select a session');
         return;
     }
-    window.open('/sessionCreate?=' + selected_session);
-    window.location.replace('/monitor?session=' + selected_session);
+    // window.open('/createCHconfig?session=' + selected_session);
+    window.open('/batteryMonitor?session=' + selected_session);
+    window.location.replace('/vitalsMonitor?session=' + selected_session);
 });
 
 $(document).ready(function () {

@@ -105,11 +105,15 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 // Transforms a string packet into variables
 function split_packet(packet) {
+    var batteries = packet.split('&')[0].split(',');    
+    var packet = packet.split('&')[1];    
     var color = packet.split('-')[1];
-    var sensors = packet.split('/');    
+    // Divide by sensors
+    var sensors = packet.split('/');        
+    // The last splitted packet shall be the patient general status
+    var patient_status = sensors[sensors.length -1].split('-')[0];
     var raw_packets = []
     var evaluated_packets = []
-    var patient_status = sensors[sensors.length -1].split('-')[0];
 
     for(var i=0; i < 5; i++) {
         var evl_pack = sensors[i].split('=')[0]
@@ -117,9 +121,9 @@ function split_packet(packet) {
         
         raw_packets.push(raw_pack);
         evaluated_packets.push(evl_pack);
-    }
+    }    
 
-    return {raw: raw_packets, eval: evaluated_packets, patient_status: patient_status, color: color};
+    return {raw: raw_packets, eval: evaluated_packets, patient_status: patient_status, color: color, batteries: batteries};
 }
 
 function get_current_time() {
@@ -169,7 +173,7 @@ function get_correspondant_color(packet) {
     var splited_packet = packet.split('/');
     
     var patient_status = splited_packet[splited_packet.length-1];
-    console.log('============ ' + patient_status.toString());
+    
 	switch (true) {
 		case patient_status <= 10:			
 			// Blue
