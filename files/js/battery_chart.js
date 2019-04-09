@@ -8,47 +8,105 @@ var firebase_config = {
     messagingSenderId: "123204586316"
 };
 
-// Chart configurations
-var config = {
+
+var reliabilityCostConfigs = {
     type: 'line',
     data: {
         labels: [],
         datasets: [
-        {
-            label: 'Thermometer',
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            data: [],
-            fill: false,
-        }, 
-        {
-            label: 'ECG',
-            backgroundColor: window.chartColors.blue,
-            borderColor: window.chartColors.blue,
-            data: [],
-            fill: false,
+            {
+                label: 'Reliability',
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: [],
+                fill: false,
+            },
+            {
+                label: 'Cost',
+                backgroundColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                data: [],
+                fill: false,
+            }]
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Reliability/Cost chart'
         },
-        {
-            label: 'Oximeter',
-            backgroundColor: window.chartColors.green,
-            borderColor: window.chartColors.green,
-            data: [],
-            fill: false,
-        }, 
-        {
-            label: 'Bpms',
-            backgroundColor: window.chartColors.yellow,
-            borderColor: window.chartColors.yellow,
-            data: [],
-            fill: false,
-        }, 
-        {
-            label: 'Bpmd',
-            backgroundColor: window.chartColors.orange,
-            borderColor: window.chartColors.orange,
-            data: [],
-            fill: false,
-        }]
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Time'
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                },
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Percentage'
+                }
+            }]
+        }
+    }
+};
+
+var batteryConfig = {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+            {
+                label: 'Thermometer',
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: [],
+                fill: false,
+            },
+            {
+                label: 'ECG',
+                backgroundColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                data: [],
+                fill: false,
+            },
+            {
+                label: 'Oximeter',
+                backgroundColor: window.chartColors.green,
+                borderColor: window.chartColors.green,
+                data: [],
+                fill: false,
+            },
+            {
+                label: 'Bpms',
+                backgroundColor: window.chartColors.yellow,
+                borderColor: window.chartColors.yellow,
+                data: [],
+                fill: false,
+            },
+            {
+                label: 'Bpmd',
+                backgroundColor: window.chartColors.orange,
+                borderColor: window.chartColors.orange,
+                data: [],
+                fill: false,
+            }]
     },
     options: {
         responsive: false,
@@ -66,7 +124,7 @@ var config = {
             intersect: true
         },
         scales: {
-            xAxes: [{						
+            xAxes: [{
                 display: true,
                 scaleLabel: {
                     display: true,
@@ -105,51 +163,66 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 // Transforms a string packet into variables
 function split_packet(packet) {
-    var batteries = packet.split('&')[0].split(',');        
+    var batteries = packet.split('&')[0].split(',');
+    var reliabilityCosts = packet.split('#')[0].split(',');    
 
-    return {batteries: batteries};
+    return { batteries: batteries, reliabilityCosts: reliabilityCosts };
 }
 
 function get_current_time() {
-    var date = new Date;			
+    var date = new Date;
     var hour = date.getHours();
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
-    
+
 
     return (hour + ':' + minutes + ':' + seconds);
 }
 
-function update_batteries_chart(packet) {			
+function update_batteries_chart(packet) {
     var time_stamp = get_current_time();
 
-    for(var i=0; i < 5; i++) {
-        config.data.datasets[i].data.push(packet.batteries[i]);        
+    for (var i = 0; i < 5; i++) {
+        batteryConfig.data.datasets[i].data.push(packet.batteries[i]);        
     }
-    config.data.labels.push(time_stamp);
+    for (var i = 0; i < 2; i++) {
+        reliabilityCostConfigs.data.datasets[i].data.push(packet.reliabilityCosts[i]);
+    }
+
+    
+    batteryConfig.data.labels.push(time_stamp);
+    reliabilityCostConfigs.data.labels.push(time_stamp);
 
     // Consume first packet if there are at least 10 packets
-    if(config.data.datasets[0].data.length > 9) {
-        for(var i=0; i < 5; i++) {
-            config.data.datasets[i].data.splice(0,1);
+    if (batteryConfig.data.datasets[0].data.length > 9) {
+        for (var i = 0; i < 5; i++) {
+            batteryConfig.data.datasets[i].data.splice(0, 1);            
         }
-        config.data.labels.splice(0,1);
-    }    
+        for (var i = 0; i < 2; i++) {
+            reliabilityCostConfigs.data.datasets[i].data.splice(0, 1);
+        }
+        batteryConfig.data.labels.splice(0, 1);
+        reliabilityCostConfigs.data.labels.splice(0, 1);
+    }
 
-    window.myLine.update();
+    window.battery.update();
+    window.reliabilityCost.update();
 }
 
 firebase.initializeApp(firebase_config);
 
 var nameRef = firebase.database().ref().child('sessions/' + getUrlParameter('session'));
 
-window.onload = function() {
-    var ctx = document.getElementById('canvas').getContext('2d');
-    window.myLine = new Chart(ctx, config);    
+window.onload = function () {
+    var ctx = document.getElementById('batteryCanvas').getContext('2d');
+    window.battery = new Chart(ctx, batteryConfig);
+
+    ctx = document.getElementById('reliabilityCostCanvas').getContext('2d');
+    window.reliabilityCost = new Chart(ctx, reliabilityCostConfigs);
 };
 
-nameRef.on('value', function(snap) {
+nameRef.on('value', function (snap) {
     var msg = snap.val()['data'];
     var splitted_packet = split_packet(msg);
-    update_batteries_chart(splitted_packet);    
+    update_batteries_chart(splitted_packet);
 });

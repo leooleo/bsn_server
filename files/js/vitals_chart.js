@@ -104,8 +104,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 // Transforms a string packet into variables
-function split_packet(packet) {
-    var batteries = packet.split('&')[0].split(',');    
+function split_packet(packet) {    
     var packet = packet.split('&')[1];    
     var color = packet.split('-')[1];
     // Divide by sensors
@@ -123,7 +122,7 @@ function split_packet(packet) {
         evaluated_packets.push(evl_pack);
     }    
 
-    return {raw: raw_packets, eval: evaluated_packets, patient_status: patient_status, color: color, batteries: batteries};
+    return {raw: raw_packets, eval: evaluated_packets, patient_status: patient_status, color: color};
 }
 
 function get_current_time() {
