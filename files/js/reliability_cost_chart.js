@@ -8,53 +8,28 @@ var firebase_config = {
     messagingSenderId: "123204586316"
 };
 
-var batteryConfig = {
+
+
+var costConfig = {
     type: 'line',
     data: {
         labels: [],
         datasets: [
             {
-                label: 'Thermometer',
-                backgroundColor: window.chartColors.red,
-                borderColor: window.chartColors.red,
-                data: [],
-                fill: false,
-            },
-            {
-                label: 'ECG',
+                label: 'Cost',
                 backgroundColor: window.chartColors.blue,
                 borderColor: window.chartColors.blue,
                 data: [],
                 fill: false,
-            },
-            {
-                label: 'Oximeter',
-                backgroundColor: window.chartColors.green,
-                borderColor: window.chartColors.green,
-                data: [],
-                fill: false,
-            },
-            {
-                label: 'Bpms',
-                backgroundColor: window.chartColors.yellow,
-                borderColor: window.chartColors.yellow,
-                data: [],
-                fill: false,
-            },
-            {
-                label: 'Bpmd',
-                backgroundColor: window.chartColors.orange,
-                borderColor: window.chartColors.orange,
-                data: [],
-                fill: false,
-            }]
+            }
+            ]
     },
     options: {
         responsive: false,
         maintainAspectRatio: false,
         title: {
             display: true,
-            text: 'Battery chart'
+            text: 'Reliability/Cost chart'
         },
         tooltips: {
             mode: 'index',
@@ -80,7 +55,59 @@ var batteryConfig = {
                 display: true,
                 scaleLabel: {
                     display: true,
-                    labelString: 'Sensor battery(%)'
+                    labelString: 'Percentage'
+                }
+            }]
+        }
+    }
+};
+
+var reliabilityConfig = {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+            {
+                label: 'Reliability',
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: [],
+                fill: false,
+            }
+            ]
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Reliability/Cost chart'
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Time'
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                },
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Percentage'
                 }
             }]
         }
@@ -104,10 +131,9 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 // Transforms a string packet into variables
 function split_packet(packet) {
-    var batteries = packet.split('&')[0].split(',');
-    var reliabilityCosts = packet.split('#')[0].split(',');    
+    var reliabilityCosts = packet.split('#')[0].split(','); 
 
-    return { batteries: batteries, reliabilityCosts: reliabilityCosts };
+    return { reliability: reliabilityCosts[0], cost: reliabilityCosts[1] };
 }
 
 function get_current_time() {
@@ -123,21 +149,24 @@ function get_current_time() {
 function update_batteries_chart(packet) {
     var time_stamp = get_current_time();
 
-    for (var i = 0; i < 5; i++) {
-        batteryConfig.data.datasets[i].data.push(packet.batteries[i]);        
-    }
+    reliabilityConfig.data.datasets[0].data
+    costConfig.data.datasets[0].data
+
+    reliabilityConfig.data.datasets[0].data.push(packet.reliability);
+    costConfig.data.datasets[0].data.push(packet.cost);
     
-    batteryConfig.data.labels.push(time_stamp);
+    
+    reliabilityConfig.data.labels.push(time_stamp);
+    costConfig.data.labels.push(time_stamp);    
 
     // Consume first packet if there are at least 10 packets
-    if (batteryConfig.data.datasets[0].data.length > 9) {
-        for (var i = 0; i < 5; i++) {
-            batteryConfig.data.datasets[i].data.splice(0, 1);            
-        }
-        batteryConfig.data.labels.splice(0, 1);        
+    if (reliabilityConfig.data.datasets[0].data.length > 9) {
+        costConfig.data.labels.splice(0, 1);
+        reliabilityConfig.data.labels.splice(0, 1);
     }
 
-    window.battery.update();    
+    window.costConfig.update();
+    window.reliabilityConfig.update();
 }
 
 firebase.initializeApp(firebase_config);
@@ -145,8 +174,11 @@ firebase.initializeApp(firebase_config);
 var nameRef = firebase.database().ref().child('sessions/' + getUrlParameter('session'));
 
 window.onload = function () {
-    var ctx = document.getElementById('batteryCanvas').getContext('2d');
-    window.battery = new Chart(ctx, batteryConfig);
+    var ctx = document.getElementById('costCanvas').getContext('2d');
+    window.costConfig = new Chart(ctx, costConfig);
+
+    ctx = document.getElementById('reliabilityCanvas').getContext('2d');
+    window.reliabilityConfig = new Chart(ctx, reliabilityConfig);
 };
 
 nameRef.on('value', function (snap) {

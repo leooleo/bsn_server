@@ -30,6 +30,10 @@ app.get('/batteryMonitor', function (req, res) {
 	res.sendFile(__dirname + '/files/html/battery_chart.html');
 });
 
+app.get('/reliabilityCostMonitor', function (req, res) {
+	res.sendFile(__dirname + '/files/html/reliability_cost_chart.html');
+});
+
 app.get('/custom', function (req, res) {
 	res.sendFile(__dirname + '/files/html/customize.html');
 });
