@@ -211,6 +211,16 @@ function update_raw_data(packet) {
     $('#raw_data').text(display_packet).fadeIn(250);    
 }
 
+
+
+$("a").click(function(){    
+    // If user is already on that page nothing shall be done
+    if(this.className == 'active') {
+        return
+    }
+    window.location.replace('/' + this.className + '?session=' + getUrlParameter('session'));
+});
+
 firebase.initializeApp(firebase_config);
 
 var nameRef = firebase.database().ref().child('sessions/' + getUrlParameter('session'));

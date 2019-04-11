@@ -7,9 +7,16 @@
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+	<link rel="stylesheet" type="text/css" href="../files/css/chart_style.css">
 </head>
 
 <body>	
+	<div class="topnav">
+		<a href="/">Home</a>
+		<a class="vitalsMonitor">Vitals monitor</a>
+		<a class="active" class="batteryMonitor">Battery monitor</a>
+		<a class="reliabilityCostMonitor">Reliability/Cost monitor</a>		
+	</div>
 	
 	<canvas id="batteryCanvas" class="chartjs-render-monitor" style="width: 95vw; height: 95vh; float: left;"></canvas>
 

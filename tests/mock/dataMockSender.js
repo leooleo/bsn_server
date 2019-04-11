@@ -25,7 +25,7 @@ function add_data(){
 
 firebase.initializeApp(config);
 
-const nameRef = firebase.database().ref().child('sessions/1');
+const nameRef = firebase.database().ref().child('sessions/0');
 
 var lines = (fs.readFileSync('out.txt', 'utf8')).split('\n');
 

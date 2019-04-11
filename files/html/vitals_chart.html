@@ -11,6 +11,13 @@
 </head>
 
 <body>
+	<div class="topnav">
+		<a href="/">Home</a>
+		<a class="active" class="vitalsMonitor">Vitals monitor</a>
+		<a class="batteryMonitor">Battery monitor</a>
+		<a class="reliabilityCostMonitor">Reliability/Cost monitor</a>		
+	</div>
+	
 	<div id="circle_wrapper">
 		<div id="raw_data">
 		
@@ -21,7 +28,7 @@
 				<div class="cirlce_contents">--</div> 
 			</div>
 		</div>
-		<button class="btn danger" id="stop_sim">Stop simulation</button>
+		<!-- <button class="btn danger" id="stop_sim">Stop simulation</button> -->
 	</div>
 	
 	<canvas id="canvas" class="chartjs-render-monitor" style="width: 52vw; height: 95vh; float: left;"></canvas>			

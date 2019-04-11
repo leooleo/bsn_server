@@ -140,6 +140,14 @@ function update_batteries_chart(packet) {
     window.battery.update();    
 }
 
+$("a").click(function(){    
+    // If user is already on that page nothing shall be done
+    if(this.className == 'active') {
+        return
+    }
+    window.location.replace('/' + this.className + '?session=' + getUrlParameter('session'));
+});
+
 firebase.initializeApp(firebase_config);
 
 var nameRef = firebase.database().ref().child('sessions/' + getUrlParameter('session'));
