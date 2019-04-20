@@ -55,6 +55,19 @@ app.get('/createConfig', function (req, res) {
 	// res.send('<h1>Success</h1>');
 });
 
+app.get('/setUpBSNConfig', function (req, res) {
+	console.log(req.query);
+	
+	var obj = JSON.parse(fs.readFileSync('files/configs/' + req.query.config, 'utf8'));
+	obj.databaseUrl = req.query.url;
+
+	//TODO: send to bsn(integrate url with createCHconfig)
+
+	res.send(obj);
+});
+
+
+
 http.listen(3000, function () {
 	console.log('listening on *:3000');
 	// console.log(getAvailableConfigurations());
