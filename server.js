@@ -1,7 +1,12 @@
 var express = require('express');
 var app = require('express')();
+const fs = require('fs');
 var http = require('http').Server(app);
 var databaseUrl = 'https://my-project-1516369881504.firebaseio.com/'
+
+function getAvailableConfigurations() {
+	return fs.readdirSync('./files/configs');
+}
 
 app.use("/files", express.static(__dirname + "/files"));
 
@@ -38,7 +43,20 @@ app.get('/custom', function (req, res) {
 	res.sendFile(__dirname + '/files/html/customize.html');
 });
 
+app.get('/getConfigs', function (req, res) {
+	res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({ configurations: getAvailableConfigurations()}));
+});
+
+app.get('/createConfig', function (req, res) {
+	
+	console.log(req.query);
+	res.send(req.query);
+	// res.send('<h1>Success</h1>');
+});
 
 http.listen(3000, function () {
 	console.log('listening on *:3000');
+	// console.log(getAvailableConfigurations());
 });
+
