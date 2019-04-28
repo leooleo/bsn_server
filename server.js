@@ -4,6 +4,16 @@ const fs = require('fs');
 var http = require('http').Server(app);
 var databaseUrl = 'https://my-project-1516369881504.firebaseio.com/'
 
+
+function createCHconfig (urlToConnect) {
+	var chConfiguration = "<launch>\r\n\t<node name=\"centralhub\" pkg=\"centralhub\" type=\"centralhub\" output=\"screen\" \/>\r\n\r\n\t<param name=\"connect\" value=\"true\" type=\"bool\" \/>"
+	chConfiguration += "\n\t<param name=\"db_url\" value=\""
+	chConfiguration += urlToConnect + '\"\/>\r\n'
+	chConfiguration += "\t<param name=\"persist\" value=\"true\" type=\"bool\" \/>\r\n\r\n\t<param name=\"path\" value=\"centralhub_output.csv\" \/>\r\n\r\n<\/launch>"	
+	
+	return chConfiguration;
+}
+
 function getAvailableConfigurations() {
 	return fs.readdirSync('./files/configs');
 }
@@ -12,19 +22,6 @@ app.use("/files", express.static(__dirname + "/files"));
 
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/files/html/home.html');
-});
-
-app.get('/createCHconfig', function (req, res) {
-	var sessionNumber = req.query.session;
-	console.log(sessionNumber);
-	res.setHeader('Content-Type', 'application/json');
-
-	var chConfiguration = "<launch>\r\n\t<node name=\"centralhub\" pkg=\"centralhub\" type=\"centralhub\" output=\"screen\" \/>\r\n\r\n\t<param name=\"connect\" value=\"true\" type=\"bool\" \/>"
-	chConfiguration += "\n\t<param name=\"db_url\" value=\""
-	chConfiguration += databaseUrl + 'sessions/' + sessionNumber + '.json\"\/>\r\n'
-	chConfiguration += "\t<param name=\"persist\" value=\"true\" type=\"bool\" \/>\r\n\r\n\t<param name=\"path\" value=\"centralhub_output.csv\" \/>\r\n\r\n<\/launch>"
-	//TODO: send config to BSN API
-	res.end(JSON.stringify({ data: chConfiguration }));
 });
 
 app.get('/vitalsMonitor', function (req, res) {
@@ -56,14 +53,10 @@ app.get('/createConfig', function (req, res) {
 });
 
 app.get('/setUpBSNConfig', function (req, res) {
-	console.log(req.query);
-	
 	var obj = JSON.parse(fs.readFileSync('files/configs/' + req.query.config, 'utf8'));
-	obj.databaseUrl = req.query.url;
-
-	//TODO: send to bsn(integrate url with createCHconfig)
-
-	res.send(obj);
+	obj.chConfig = createCHconfig(req.query.url);
+		
+	res.send('ok');
 });
 
 

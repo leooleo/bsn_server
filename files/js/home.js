@@ -41,7 +41,7 @@ $('#session_monitor_btn').click(function () {
         configuration.url = databaseUrl + sessionsCount + '.json'
 
         configuration.config = selectedConfiguration;        
-
+    
         $.ajax({
             url: "setUpBSNConfig",
             data: { 
@@ -52,19 +52,14 @@ $('#session_monitor_btn').click(function () {
             type: "GET",
             success: function(response) {
                 console.log(response);
+                window.location.replace('/vitalsMonitor?session=' + sessionsCount);
             },
             error: function(xhr) {
-                alert('An error ocurred');
+                alert('An error ocurred ' + xhr);
             }
-        });
-        console.log(configuration);
+        });        
     });
-
     
-    // firebase.database().ref("sessions").
-    console.log(selectedConfiguration);
-
-    // window.location.replace('/vitalsMonitor?session=' + 0);
     
 });
 

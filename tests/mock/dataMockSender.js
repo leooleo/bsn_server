@@ -25,7 +25,13 @@ function add_data(){
 
 firebase.initializeApp(config);
 
-const nameRef = firebase.database().ref().child('sessions/0');
+var session = process.argv[2];
+if(session == undefined) {
+    session = 0;
+}
+
+console.log('Adding to session ' + session);
+const nameRef = firebase.database().ref().child('sessions/' + session);
 
 var lines = (fs.readFileSync('out.txt', 'utf8')).split('\n');
 
