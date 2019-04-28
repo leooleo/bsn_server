@@ -221,6 +221,12 @@ $("a").click(function(){
     window.location.replace('/' + this.className + '?session=' + getUrlParameter('session'));
 });
 
+$('#stop_sim').click(function() {
+    $.get('/stopSession?session=' + + getUrlParameter('session'), function(data) {
+        console.log(data);
+    });    
+});
+
 firebase.initializeApp(firebase_config);
 
 var nameRef = firebase.database().ref().child('sessions/' + getUrlParameter('session'));

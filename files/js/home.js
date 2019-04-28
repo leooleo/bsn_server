@@ -46,7 +46,8 @@ $('#session_monitor_btn').click(function () {
             url: "setUpBSNConfig",
             data: { 
                 "url": configuration.url, 
-                "config": configuration.config
+                "config": configuration.config,
+                "session": sessionsCount
             },
             cache: false,
             type: "GET",
@@ -69,7 +70,7 @@ $(document).ready(function () {
     // });
 
 
-    $.getJSON( "http://localhost:3000/getConfigs", function( data ) {
+    $.getJSON( "/getConfigs", function( data ) {
         $.each(data['configurations'], function(index, configName){            
             configName = decodeConfigurationString(configName);
             $('#configurationSelect').append(new Option(text= configName, value= configName));

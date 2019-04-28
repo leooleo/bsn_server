@@ -15,8 +15,8 @@ function encodeConfigurationString(encodedString) {
 }
 
 
-$.getJSON( "http://localhost:3000/getConfigs", function( data ) {
-    console.log(data['configurations']);
+$.getJSON( "/getMarkovs", function( data ) {
+    // console.log(data['configurations']);
     $.each(data['configurations'], function(index, configName){            
         configName = decodeConfigurationString(configName);
         $('#markovSelect').append(new Option(text= configName, value= configName));
