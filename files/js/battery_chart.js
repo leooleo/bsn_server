@@ -104,8 +104,9 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 // Transforms a string packet into variables
 function split_packet(packet) {
-    var batteries = packet.split('&')[0].split(',');
-    var reliabilityCosts = packet.split('#')[0].split(',');    
+    var splitted = packet.split('#');
+    var reliabilityCosts = splitted[0].split(',');    
+    var batteries = splitted[1].split('&')[0].split(',');
 
     return { batteries: batteries, reliabilityCosts: reliabilityCosts };
 }
