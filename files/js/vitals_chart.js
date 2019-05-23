@@ -48,6 +48,13 @@ var config = {
             borderColor: window.chartColors.orange,
             data: [],
             fill: false,
+        },
+        {
+            label: 'Acc',
+            backgroundColor: window.chartColors.purple,
+            borderColor: window.chartColors.purple,
+            data: [],
+            fill: false,
         }]
     },
     options: {
@@ -114,7 +121,7 @@ function split_packet(packet) {
     var raw_packets = []
     var evaluated_packets = []
 
-    for(var i=0; i < 5; i++) {
+    for(var i=0; i < 6; i++) {
         var evl_pack = sensors[i].split('=')[0]
         var raw_pack = sensors[i].split('=')[1]
         
@@ -138,14 +145,14 @@ function get_current_time() {
 function update_sensors_chart(packet) {			
     var time_stamp = get_current_time();
 
-    for(var i=0; i < 5; i++) {
+    for(var i=0; i < 6; i++) {
         config.data.datasets[i].data.push(packet.eval[i]);        
     }
     config.data.labels.push(time_stamp);
 
     // Consume first packet if there are at least 10 packets
     if(config.data.datasets[0].data.length > 9) {
-        for(var i=0; i < 5; i++) {
+        for(var i=0; i < 6; i++) {
             config.data.datasets[i].data.splice(0,1);
         }
         config.data.labels.splice(0,1);
