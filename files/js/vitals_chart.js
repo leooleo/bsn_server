@@ -244,7 +244,7 @@ window.onload = function() {
 };
 
 nameRef.on('value', function(snap) {
-    var msg = snap.val()['data'];
+    var msg = snap.val()['VitalData'];
     var color = get_correspondant_color(msg);
     var splitted_packet = split_packet(msg + '-' + color);
     update_sensors_chart(splitted_packet);

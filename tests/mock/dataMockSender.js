@@ -16,9 +16,9 @@ var config = {
 function add_data(){ 
     // sleep(5000);
 
-    for (let i = 0; i < lines.length; i++) {
+    for (let i = 0; i < lines.length; i+=2) {
         console.log('new data ' + i.toString());
-        nameRef.update({'data': lines[i]});
+        nameRef.update({'VitalData': lines[i], 'RelCos': lines[i+1]});
         sleep(2000);
     } 
 }

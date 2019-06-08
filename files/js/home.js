@@ -35,7 +35,7 @@ $('#session_monitor_btn').click(function () {
     // Add a session
     firebase.database().ref('/sessions').once('value').then(function (snapshot) {
         var sessionsCount = snapshot.val().length                        
-        firebase.database().ref("sessions/" + sessionsCount).set({data: '...'});
+        firebase.database().ref("sessions/" + sessionsCount).set({ VitalData: '...', RelCos: '...'});
 
         var configuration = {}
         configuration.url = databaseUrl + sessionsCount + '.json'

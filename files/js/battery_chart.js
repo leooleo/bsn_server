@@ -104,11 +104,11 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 // Transforms a string packet into variables
 function split_packet(packet) {
-    var splitted = packet.split('#');
-    var reliabilityCosts = splitted[0].split(',');    
-    var batteries = splitted[1].split('&')[0].split(',');
+    // var splitted = packet.split('#');
+    // var reliabilityCosts = splitted[0].split(',');    
+    var batteries = packet.split('&')[0].split(',');
 
-    return { batteries: batteries, reliabilityCosts: reliabilityCosts };
+    return { batteries: batteries };
 }
 
 function get_current_time() {
@@ -159,7 +159,7 @@ window.onload = function () {
 };
 
 nameRef.on('value', function (snap) {
-    var msg = snap.val()['data'];
+    var msg = snap.val()['VitalData'];
     var splitted_packet = split_packet(msg);
     update_batteries_chart(splitted_packet);
 });
