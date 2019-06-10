@@ -13,8 +13,8 @@ var firebase_config = {
 firebase.initializeApp(firebase_config);
 
 function decodeConfigurationString(encodedString) {
-    encodedString = encodedString.replace('_',' on ');
-    encodedString = encodedString.replace('-',' ');
+    encodedString = encodedString.replace('_', ' on ');
+    encodedString = encodedString.replace('-', ' ');
     encodedString = encodedString.replace('.json', '');
 
     return encodedString;
@@ -34,34 +34,35 @@ $('#session_monitor_btn').click(function () {
 
     // Add a session
     firebase.database().ref('/sessions').once('value').then(function (snapshot) {
-        var sessionsCount = snapshot.val().length                        
-        firebase.database().ref("sessions/" + sessionsCount).set({ VitalData: '...', RelCos: '...'});
+        var sessionsCount = snapshot.val().length
+        firebase.database().ref("sessions/" + sessionsCount).set({ VitalData: '...', RelCos: '...' });
 
         var configuration = {}
         configuration.url = databaseUrl + sessionsCount + '.json'
 
-        configuration.config = selectedConfiguration;        
-    
+        configuration.config = selectedConfiguration;
+
         $.ajax({
             url: "setUpBSNConfig",
-            data: { 
-                "url": configuration.url, 
+            data: {
+                "url": configuration.url,
                 "config": configuration.config,
                 "session": sessionsCount
             },
             cache: false,
             type: "GET",
-            success: function(response) {
-                console.log(response);
-                window.location.replace('/vitalsMonitor?session=' + sessionsCount);
+            success: function (response) {
+                if (response == 'ok') {
+                    window.location.replace('/vitalsMonitor?session=' + sessionsCount);
+                }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 alert('An error ocurred ' + xhr);
             }
-        });        
+        });
     });
-    
-    
+
+
 });
 
 $(document).ready(function () {
@@ -70,10 +71,10 @@ $(document).ready(function () {
     // });
 
 
-    $.getJSON( "/getConfigs", function( data ) {
-        $.each(data['configurations'], function(index, configName){            
+    $.getJSON("/getConfigs", function (data) {
+        $.each(data['configurations'], function (index, configName) {
             configName = decodeConfigurationString(configName);
-            $('#configurationSelect').append(new Option(text= configName, value= configName));
+            $('#configurationSelect').append(new Option(text = configName, value = configName));
         });
     });
 });

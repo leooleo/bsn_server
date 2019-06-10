@@ -231,7 +231,7 @@ $("a").click(function(){
 $('#stop_sim').click(function() {
     $.get('/stopSession?session=' + + getUrlParameter('session'), function(data) {
         console.log(data);
-    });    
+    });
 });
 
 firebase.initializeApp(firebase_config);
