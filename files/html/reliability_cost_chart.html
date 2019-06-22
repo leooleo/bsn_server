@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<script async="" src="../files/js/analytics.js"></script><script src="../files/js/Chart.bundle.js"></script><style type="text/css">/* Chart.js */
+	@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+	<script src="../files/js/utils.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+	<link rel="stylesheet" type="text/css" href="../files/css/chart_style.css">
+</head>
+
+<body>	
+	<div class="topnav">
+		<a href="/">Home</a>
+		<a class="vitalsMonitor">Vitals monitor</a>
+		<a class="batteryMonitor">Battery monitor</a>
+		<a class="active" class="reliabilityCostMonitor">Reliability/Cost monitor</a>		
+	</div>
+	
+    <canvas id="reliabilityCanvas" class="chartjs-render-monitor" style="width: 45vw; height: 95vh; float: left;"></canvas>
+    <canvas id="costCanvas" class="chartjs-render-monitor" style="width: 45vw; height: 95vh; float: left;"></canvas>
+
+</body>
+<footer>
+	<script type="text/javascript" src="../files/js/reliability_cost_chart.js"></script>
+</footer>
+</html>

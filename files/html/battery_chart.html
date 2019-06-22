@@ -10,24 +10,18 @@
 	<link rel="stylesheet" type="text/css" href="../files/css/chart_style.css">
 </head>
 
-<body>
-	<div id="circle_wrapper">
-		<div id="raw_data">
-		
-		</div>
-
-		<div id="outer-circle">			
-			<div id="inner-circle">
-				<div class="cirlce_contents">--</div> 
-			</div>
-		</div>
-		<button class="btn danger" id="stop_sim">Stop simulation</button>
+<body>	
+	<div class="topnav">
+		<a href="/">Home</a>
+		<a class="vitalsMonitor">Vitals monitor</a>
+		<a class="active" class="batteryMonitor">Battery monitor</a>
+		<a class="reliabilityCostMonitor">Reliability/Cost monitor</a>		
 	</div>
 	
-	<canvas id="canvas" class="chartjs-render-monitor" style="width: 52vw; height: 95vh; float: left;"></canvas>			
+	<canvas id="batteryCanvas" class="chartjs-render-monitor" style="width: 95vw; height: 95vh; float: left;"></canvas>
 
 </body>
 <footer>
-	<script type="text/javascript" src="../files/js/chart.js"></script>
+	<script type="text/javascript" src="../files/js/battery_chart.js"></script>
 </footer>
 </html>

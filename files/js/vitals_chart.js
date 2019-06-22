@@ -48,6 +48,13 @@ var config = {
             borderColor: window.chartColors.orange,
             data: [],
             fill: false,
+        },
+        {
+            label: 'Acc',
+            backgroundColor: window.chartColors.purple,
+            borderColor: window.chartColors.purple,
+            data: [],
+            fill: false,
         }]
     },
     options: {
@@ -104,20 +111,23 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 // Transforms a string packet into variables
-function split_packet(packet) {
+function split_packet(packet) {    
+    var packet = packet.split('&')[1];    
     var color = packet.split('-')[1];
-    var sensors = packet.split('/');    
+    // Divide by sensors
+    var sensors = packet.split('/');        
+    // The last splitted packet shall be the patient general status
+    var patient_status = sensors[sensors.length -1].split('-')[0];
     var raw_packets = []
     var evaluated_packets = []
-    var patient_status = sensors[sensors.length -1].split('-')[0];
 
-    for(var i=0; i < 5; i++) {
+    for(var i=0; i < 6; i++) {
         var evl_pack = sensors[i].split('=')[0]
         var raw_pack = sensors[i].split('=')[1]
         
         raw_packets.push(raw_pack);
         evaluated_packets.push(evl_pack);
-    }
+    }    
 
     return {raw: raw_packets, eval: evaluated_packets, patient_status: patient_status, color: color};
 }
@@ -135,14 +145,14 @@ function get_current_time() {
 function update_sensors_chart(packet) {			
     var time_stamp = get_current_time();
 
-    for(var i=0; i < 5; i++) {
+    for(var i=0; i < 6; i++) {
         config.data.datasets[i].data.push(packet.eval[i]);        
     }
     config.data.labels.push(time_stamp);
 
     // Consume first packet if there are at least 10 packets
     if(config.data.datasets[0].data.length > 9) {
-        for(var i=0; i < 5; i++) {
+        for(var i=0; i < 6; i++) {
             config.data.datasets[i].data.splice(0,1);
         }
         config.data.labels.splice(0,1);
@@ -169,7 +179,7 @@ function get_correspondant_color(packet) {
     var splited_packet = packet.split('/');
     
     var patient_status = splited_packet[splited_packet.length-1];
-    console.log('============ ' + patient_status.toString());
+    
 	switch (true) {
 		case patient_status <= 10:			
 			// Blue
@@ -208,6 +218,22 @@ function update_raw_data(packet) {
     $('#raw_data').text(display_packet).fadeIn(250);    
 }
 
+
+
+$("a").click(function(){    
+    // If user is already on that page nothing shall be done
+    if(this.className == 'active') {
+        return
+    }
+    window.location.replace('/' + this.className + '?session=' + getUrlParameter('session'));
+});
+
+$('#stop_sim').click(function() {
+    $.get('/stopSession?session=' + + getUrlParameter('session'), function(data) {
+        console.log(data);
+    });
+});
+
 firebase.initializeApp(firebase_config);
 
 var nameRef = firebase.database().ref().child('sessions/' + getUrlParameter('session'));
@@ -218,7 +244,7 @@ window.onload = function() {
 };
 
 nameRef.on('value', function(snap) {
-    var msg = snap.val()['data'];
+    var msg = snap.val()['VitalData'];
     var color = get_correspondant_color(msg);
     var splitted_packet = split_packet(msg + '-' + color);
     update_sensors_chart(splitted_packet);
