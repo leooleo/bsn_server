@@ -1,13 +1,20 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueSocketIO from 'vue-socket.io';
-import VueRouter from 'vue-router';
-import teste from './components/teste.vue'
-import WebSocket from './components/WebSocket.vue'
+import VueRouter from 'vue-router'
+import VueSocketIO from 'vue-socket.io'
 import BootstrapVue from 'bootstrap-vue'
+
+
+// Bootstrap
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+// Components
+import WebSocket from './components/WebSocket.vue'
+import teste from './components/teste.vue'
+import monitor from './routes/monitor.vue'
+
+// Usages
 Vue.use(BootstrapVue)
 
 Vue.use(new VueSocketIO({
@@ -18,8 +25,11 @@ Vue.use(new VueSocketIO({
 
 Vue.use(VueRouter);
 
+// Initializations
+
 const routes = [
   {path: '/teste', component: teste},
+  {path: '/monitor', component: monitor},
   {path: '/', component: WebSocket}
 ];
 
