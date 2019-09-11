@@ -2,7 +2,7 @@
   <div>
     <h1 v-if="isConnected">We're connected to the server!</h1>
     <h3>Message from server: "{{socketMessage}}"</h3>
-    <button @click="pingServer()">Ping Server</button>  
+    <button @click="pingServer()">Ping Server</button>
   </div>
 </template>
 
@@ -11,8 +11,8 @@ export default {
   data() {
     return {
       isConnected: false,
-      socketMessage: ''
-    }
+      socketMessage: ""
+    };
   },
 
   sockets: {
@@ -27,15 +27,15 @@ export default {
 
     // Fired when the server sends something on the "messageChannel" channel.
     messageChannel(data) {
-      this.socketMessage = data
+      this.socketMessage = data;
     }
   },
 
   methods: {
     pingServer() {
       // Send the "pingServer" event to the server.
-      this.$socket.emit('pingServer', 'PING!')
+      this.$socket.emit("pingServer", "PING!");
     }
   }
-}
+};
 </script>
