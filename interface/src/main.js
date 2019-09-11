@@ -13,6 +13,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import WebSocket from './components/WebSocket.vue'
 import teste from './components/teste.vue'
 import monitor from './routes/monitor.vue'
+import alertIcon from 'vue-material-design-icons/Alert.vue';
 
 // Usages
 Vue.use(BootstrapVue)
@@ -24,6 +25,8 @@ Vue.use(new VueSocketIO({
 );
 
 Vue.use(VueRouter);
+
+Vue.component('alert-icon', alertIcon);
 
 // Initializations
 

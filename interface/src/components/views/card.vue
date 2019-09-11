@@ -4,14 +4,14 @@
     <b-card-body class="text-primary text-center cardBody">{{sensorRawData}}</b-card-body>
     <b-card-footer style="width: 20rem !important; margin-left:-20px !important;">
       <small class="text-muted cardFooterText" style="font-size: 1rem;">Sensor risk status</small>
-      <b-progress :value="this.sensorEvalData" striped></b-progress>
+      <b-progress :value="Number(this.sensorEvalData)" striped></b-progress>
     </b-card-footer>
     <b-card-footer
       class="cardFooter"
       style="width: 20rem !important; margin-left:-20px !important;"
     >
       <small class="text-muted cardFooterText">Sensor battery status</small>
-      <b-progress :value="this.sensorBattery" striped></b-progress>
+      <b-progress :value="Number(this.sensorBattery)" striped></b-progress>
     </b-card-footer>
   </b-card>
 </template>
@@ -27,7 +27,7 @@ export default {
   margin-top: 1.75rem;
   width: 20rem !important;
   border-radius: 15px !important;
-  margin-left: 6rem;
+  margin-right: 1rem;
 }
 
 .cardBody {

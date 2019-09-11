@@ -5,13 +5,13 @@
       :sensorBattery="sensorBattery"
       :sensorName="sensorName"
       :sensorRawData="sensorRawData"
-    ></cardTemplate>    
+    ></cardTemplate>
   </div>
 </template>
 
 <script>
 import cardTemplate from "../views/card";
-const sensorUnit = "Cº";
+const sensorUnit = "mmhg";
 
 export default {
   components: {
@@ -21,8 +21,8 @@ export default {
     return {
       sensorEvalData: 40,
       sensorBattery: 50,
-      sensorName: "Thermometer",
-      sensorRawData: "36.5" + ' ' + sensorUnit
+      sensorName: "Bpms",
+      sensorRawData: "120" + ' ' + sensorUnit
     };
   },
 };

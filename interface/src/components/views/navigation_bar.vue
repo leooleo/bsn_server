@@ -2,7 +2,7 @@
   <div>
     <b-navbar type="dark" variant="primary">
       <b-navbar-brand href="#">
-        <h2 style="margin-right: 4rem;">Body Sensor Network</h2>
+        <h4 style="margin-right: 4rem;">Body Sensor Network</h4>
       </b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
@@ -29,7 +29,7 @@ export default {
 
 <style scoped>
 #nav_el {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: white;
 }
 #nav_brand {
