@@ -1,6 +1,5 @@
 <template>
-  <div id="app">
-    <!-- <WebSocket/> -->
+  <div>
     <router-view></router-view>
   </div>
 </template>
