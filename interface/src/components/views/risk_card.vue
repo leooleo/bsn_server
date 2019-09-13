@@ -6,7 +6,7 @@
       <small class="text-primary cardFooterText" style="font-size: 1.75rem;">{{this.data + '%'}}</small>
     </b-card-body>
     <b-card-footer>
-      <alert-icon v-if="this.isAlert" fillColor="#FF4F4F" :size="Number(50)"></alert-icon>
+      <alert-icon v-if="this.alert" fillColor="#FF4F4F" :size="Number(50)"></alert-icon>
       <alert-icon v-else fillColor="#b3b1b1" :size="Number(50)"></alert-icon>
     </b-card-footer>
   </b-card>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  props: { data: String, title: String, isAlert: Boolean }
+  props: { data: String, title: String, alert: Boolean }
 };
 </script>
 

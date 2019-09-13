@@ -2,64 +2,64 @@ var sleep = require('sleep');
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io');
+var bodyParser = require('body-parser')
 
 const port = 8081
 
+app.use(bodyParser.json());
 server.listen(port);
 
 const ws = io.listen(server);
 console.log('Server listening on port ' + port);
 
-function getRandObj() {
-  return {
-    'battery': Math.floor(Math.random() * Math.floor(100)),
-    'risk': Math.floor(Math.random() * Math.floor(100)),
-    'raw': Math.floor(Math.random() * Math.floor(100))
-  }
+async function splitPacket(packet) {
+  var batteries = packet.split('&')[0].split(',')
+  var vitals = packet.split('&')[1].split('/')
+
+  var thermometerPacket = { battery: batteries[0], risk: vitals[0].split('=')[0], raw: vitals[0].split('=')[1] };
+  var ecgPacket = { battery: batteries[1], risk: vitals[1].split('=')[0], raw: vitals[1].split('=')[1] };
+  var oximeterPacket = { battery: batteries[2], risk: vitals[2].split('=')[0], raw: vitals[2].split('=')[1] };
+  var bpmsPacket = { battery: batteries[3], risk: vitals[3].split('=')[0], raw: vitals[3].split('=')[1] };
+  var bpmdPacket = { battery: batteries[3], risk: vitals[4].split('=')[0], raw: vitals[4].split('=')[1] };
+  var patientRiskPacket = { data: vitals[5], alert: Number(vitals[5]) > 60 ? true : false}
+
+  return [thermometerPacket, ecgPacket, oximeterPacket, bpmsPacket, bpmdPacket, patientRiskPacket];
 }
 
-async function emitAllChannels(socket, object) {
-  socket.emit('thermometerChannel', object);
-  socket.emit('ecgChannel', object);
-  socket.emit('oximeterChannel', object);
-  socket.emit('bpmsChannel', object);
-  socket.emit('bpmdChannel', object);
+async function handlePacket(packet) {
+  var packets = await splitPacket(packet);  
+  emitVitalChannels(ws, packets);
+}
+
+app.post('/sendVitalData', function (req, res) {
+  var packet = req.body.vitalData;
+  handlePacket(packet);
+  res.send('ok');
+});
+
+app.post('/sendRelCosData', function (req, res) {  
+  var packet = req.body;  
+  emitRelCosChannels(ws,packet);
+  res.send('ok');
+});
+
+async function emitRelCosChannels(socket, packet) {  
+  console.log(packet)
+  socket.emit('reliabilityChannel', packet.reliability);
+  socket.emit('costChannel', packet.cost);
+  
+}
+
+async function emitVitalChannels(socket, array) {  
+  socket.emit('thermometerChannel', array[0]);
+  socket.emit('ecgChannel', array[1]);
+  socket.emit('oximeterChannel', array[2]);
+  socket.emit('bpmsChannel', array[3]);
+  socket.emit('bpmdChannel', array[4]);
+  socket.emit('patientChannel', array[5]);  
 }
 
 ws.on('connection', function (socket) {
   console.log('new conn' + socket.id);
-  
-  // socket.on('pingServer', (val) => {
-  //   console.log('received ' + val);    
-  //   var obj = getRandObj();    
-  //   console.log(obj);
-  //   // ws.emit('thermometerChannel',JSON.stringify(obj))
-  //     emitAllChannels(ws, JSON.stringify(obj));   
-  //   // socket.broadcast('thermometChannel',JSON.stringify(obj))
-  //   // ws.emit('thermometChannel',JSON.stringify(obj))
-  //   // emitAllChannels(socket, JSON.stringify(thermometerObject2));
-  // })
 })
 
-const readline = require('readline');
-
-function askQuestion(query) {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-    });
-
-    return new Promise(resolve => rl.question(query, ans => {
-        rl.close();
-        resolve(ans);
-    }))
-}
-async function init() {
-  const ans = await askQuestion("Are you sure you want to deploy to PRODUCTION? ");
-  var obj = getRandObj();
-  emitAllChannels(ws, JSON.stringify(obj));   
-  console.log('emited!');
-  init()
-}
-
-init()

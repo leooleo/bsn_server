@@ -1,12 +1,15 @@
 <template>
-  <smallCard title="Patient Risk" data="0" :isAlert="Boolean(false)"></smallCard>
+  <riskCard title="Patient Risk" :data="packet.data" :alert="Boolean(packet.alert)"></riskCard>
 </template>
 
 <script>
-import smallCard from "../views/risk_card";
+import riskCard from "../views/risk_card";
 export default {
   components: {
-    smallCard
+    riskCard
+  },
+  props : {
+    packet: Object
   }
 };
 </script>

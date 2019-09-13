@@ -2,7 +2,7 @@
   <div id="my-monitor">
     <navigationBar isRealTime="true"></navigationBar>
 
-    <h5 class="page_title">Sensors data</h5>    
+    <h5 class="page_title">Sensors data</h5>
     <b-card-group deck style="margin-left: 5rem;">
       <cardVM :packet="this.thermometerPacket" sensorName="Thermometer" sensorUnit=" Cº"></cardVM>
       <cardVM :packet="this.ecgPacket" sensorName="ECG" sensorUnit=" bpm"></cardVM>
@@ -14,9 +14,9 @@
     <h5 class="page_title">System variables and patient risk status</h5>
     <b-container style="margin-left: 5rem;">
       <b-row>
-        <smallCardVm title="Reliability" subtitle="System reliability" data="50"></smallCardVm>
-        <smallCardVm title="Battery cost" subtitle="system battery cost" data="50"></smallCardVm>
-        <patientRiskCard></patientRiskCard>
+        <smallCardVm title="Reliability" subtitle="System reliability" :data="systemReliability"></smallCardVm>
+        <smallCardVm title="Battery cost" subtitle="system battery cost" :data="systemCost"></smallCardVm>
+        <patientRiskCard :packet="patientPacket"></patientRiskCard>
       </b-row>
     </b-container>
   </div>
@@ -27,7 +27,7 @@ import navigationBar from "../components/views/navigation_bar";
 import cardVM from "../components/viewModels/card_view_model";
 import smallCardVm from "../components/viewModels/small_card_view_model";
 import patientRiskCard from "../components/viewModels/patient_risk_card";
-import Packet from "../components/models/packet";
+import VitalPacket from "../components/models/packet";
 
 export default {
   name: "my-monitor",
@@ -35,16 +35,19 @@ export default {
     navigationBar,
     cardVM,
     smallCardVm,
-    patientRiskCard,
+    patientRiskCard
   },
   data: function() {
     return {
-      thermometerPacket: new Packet(),
-      oximeterPacket: new Packet(),
-      bpmsPacket: new Packet(),
-      bpmdPacket: new Packet(),
-      ecgPacket: new Packet(),
-      isConnected: false,
+      thermometerPacket: new VitalPacket(),
+      oximeterPacket: new VitalPacket(),
+      bpmsPacket: new VitalPacket(),
+      bpmdPacket: new VitalPacket(),
+      ecgPacket: new VitalPacket(),
+      systemCost: "0",
+      systemReliability: "0",
+      patientPacket: { data: "0", alert: false },
+      isConnected: false
     };
   },
   sockets: {
@@ -57,26 +60,51 @@ export default {
     },
 
     thermometerChannel(data) {
-      var obj = JSON.parse(data);
-      this.thermometerPacket = new Packet(obj.battery, obj.risk, obj.raw);
+      this.thermometerPacket = new VitalPacket(
+        data.battery,
+        data.risk,
+        Number(data.raw).toFixed(1)
+      );
     },
     ecgChannel(data) {
-      var obj = JSON.parse(data);
-      this.ecgPacket = new Packet(obj.battery, obj.risk, obj.raw);
+      this.ecgPacket = new VitalPacket(
+        data.battery,
+        data.risk,
+        Number(data.raw).toFixed(1)
+      );
     },
     oximeterChannel(data) {
-      var obj = JSON.parse(data);
-      this.oximeterPacket = new Packet(obj.battery, obj.risk, obj.raw);
+      this.oximeterPacket = new VitalPacket(
+        data.battery,
+        data.risk,
+        Number(data.raw).toFixed(1)
+      );
     },
     bpmsChannel(data) {
-      var obj = JSON.parse(data);
-      this.bpmsPacket = new Packet(obj.battery, obj.risk, obj.raw);
+      this.bpmsPacket = new VitalPacket(
+        data.battery,
+        data.risk,
+        Number(data.raw).toFixed(1)
+      );
     },
     bpmdChannel(data) {
-      var obj = JSON.parse(data);
-      this.bpmdPacket = new Packet(obj.battery, obj.risk, obj.raw);
+      this.bpmdPacket = new VitalPacket(
+        data.battery,
+        data.risk,
+        Number(data.raw).toFixed(1)
+      );
+    },
+    patientChannel(data) {
+      data.data = Number(data.data).toFixed(1);
+      this.patientPacket = data;
+    },
+    reliabilityChannel(data) {
+      this.systemReliability = data;
+    },
+    costChannel(data) {
+      this.systemCost = data;
     }
-  },
+  }
 };
 </script>
 
