@@ -1,4 +1,3 @@
-var sleep = require('sleep');
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io');
@@ -30,6 +29,10 @@ async function handlePacket(packet) {
   var packets = await splitPacket(packet);  
   emitVitalChannels(ws, packets);
 }
+
+app.get('/', function (req, res) {
+  res.send('ok');
+});
 
 app.post('/sendVitalData', function (req, res) {
   var packet = req.body.vitalData;
