@@ -33,7 +33,8 @@ Vue.component('alert-icon', alertIcon);
 const routes = [
   {path: '/teste', component: teste},
   {path: '/monitor', component: monitor},
-  {path: '/', component: WebSocket}
+  {path: '/', component: monitor},
+  {path: '/ws', component: WebSocket}
 ];
 
 const router = new VueRouter({
