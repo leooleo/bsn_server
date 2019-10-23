@@ -81,7 +81,7 @@ export default {
   },
   created() {
     /* eslint-disable no-console */
-    var routeSession = this.$route.query.session;
+    var routeSession = this.$route.query.session;    
     if(routeSession != null && routeSession != undefined)
       this.session = routeSession;
 
