@@ -1,7 +1,6 @@
 <template>
   <b-card class="card text-center cardShadow smallCard" border-variant="primary">
-    <b-card-title>{{this.title}}</b-card-title>
-
+    <h5>{{this.title}}</h5>
     <b-card-body style="width: 15rem !important; margin-left:-20px !important;">
       <small class="text-primary cardFooterText" style="font-size: 1.75rem;">{{this.data + '%'}}</small>
     </b-card-body>
@@ -28,7 +27,7 @@ export default {
 
 .cardFooterText {
   text-align: left !important;
-  font-size: 1rem;
+  font-size: 140% !important;
 }
 
 .cardBody {
@@ -38,5 +37,8 @@ export default {
 }
 .cardShadow {
   box-shadow: 0px 5px 5px #888888;
+}
+h5 {
+  font-size: 120%;
 }
 </style>

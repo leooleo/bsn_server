@@ -3,6 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import VueSocketIO from 'vue-socket.io'
 import BootstrapVue from 'bootstrap-vue'
+import VueGoogleCharts from 'vue-google-charts'
 
 
 // Bootstrap
@@ -10,10 +11,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // Components
+import alertIcon from 'vue-material-design-icons/Alert.vue'
 import WebSocket from './components/WebSocket.vue'
-import teste from './components/teste.vue'
+import history from './routes/history.vue'
 import monitor from './routes/monitor.vue'
-import alertIcon from 'vue-material-design-icons/Alert.vue';
+import teste from './components/teste.vue'
 
 // Usages
 Vue.use(BootstrapVue)
@@ -26,6 +28,8 @@ Vue.use(new VueSocketIO({
 
 Vue.use(VueRouter);
 
+Vue.use(VueGoogleCharts);
+
 Vue.component('alert-icon', alertIcon);
 
 // Initializations
@@ -33,6 +37,7 @@ Vue.component('alert-icon', alertIcon);
 const routes = [
   {path: '/teste', component: teste},
   {path: '/monitor', component: monitor},
+  {path: '/history', component: history},
   {path: '/', component: monitor},
   {path: '/ws', component: WebSocket}
 ];

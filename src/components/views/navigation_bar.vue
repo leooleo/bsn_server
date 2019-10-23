@@ -6,8 +6,8 @@
       </b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="#" id="nav_el" :active="realTime">Real time Monitor</b-nav-item>
-          <b-nav-item href="#" id="nav_el" :active="history">Patient History Monitor</b-nav-item>
+          <b-nav-item href="#/monitor" id="nav_el" :active="realTime">Real time Monitor</b-nav-item>
+          <b-nav-item href="#/history" id="nav_el" :active="history">Patient History Monitor</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
