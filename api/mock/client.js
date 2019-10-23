@@ -6,12 +6,11 @@ var sleep = require('system-sleep');
 
 
 
-function addData() {
-  sleep(4000);
+function addData() {  
   for (let index = 0; index < lines.length; index += 2) {    
     request.post(
       'http://localhost:8081/sendVitalData',
-      { json: { vitalData: lines[index] } },
+      { json: { vitalData: lines[index], session: 1 } },
       function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body);
@@ -23,7 +22,7 @@ function addData() {
     var cost = lines[index + 1].split(',')[1];
     request.post(
       'http://localhost:8081/sendRelCosData',
-      { json: { reliability: reliability, cost: cost } },
+      { json: { reliability: reliability, cost: cost, session: 1 } },
       function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body);

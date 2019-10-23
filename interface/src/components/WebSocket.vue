@@ -24,17 +24,20 @@ export default {
     disconnect() {
       this.isConnected = false;
     },
+  },  
 
-    // Fired when the server sends something on the "messageChannel" channel.
-    messageChannel(data) {
-      this.socketMessage = data;
-    }
+  created() {
+    this.sockets.subscribe("pingChannel", (data) => this.handleMessage(data));
   },
 
   methods: {
     pingServer() {
-      // Send the "pingServer" event to the server.
-      this.$socket.emit("pingServer", "PING!");
+      this.$socket.emit("pingChannel", "ping");
+    },
+    handleMessage(data) {
+      this.socketMessage = data;
+      /* eslint-disable no-console */
+      console.log("Handled data: " + data);
     }
   }
 };

@@ -2,7 +2,7 @@
   <div id="my-monitor">
     <navigationBar isRealTime="true"></navigationBar>
 
-    <h5 class="page_title">Sensors data</h5>
+    <h5 class="page_title">Sensors data (session {{this.session}})</h5>
     <b-card-group deck style="margin-left: 5rem;">
       <cardVM :packet="this.thermometerPacket" sensorName="Thermometer" sensorUnit=" Cº"></cardVM>
       <cardVM :packet="this.ecgPacket" sensorName="ECG" sensorUnit=" bpm"></cardVM>
@@ -11,7 +11,7 @@
       <cardVM :packet="this.bpmdPacket" sensorName="Bpmd" sensorUnit=" mmHg"></cardVM>
     </b-card-group>
 
-    <h5 class="page_title">System variables and patient risk status</h5>
+    <h5 class="page_title">System variables and patient risk status (session {{this.session}})</h5>
     <b-container style="margin-left: 5rem;">
       <b-row>
         <smallCardVm title="Reliability" subtitle="System reliability" :data="systemReliability"></smallCardVm>
@@ -47,7 +47,8 @@ export default {
       systemCost: "0",
       systemReliability: "0",
       patientPacket: { data: "0", alert: false },
-      isConnected: false
+      isConnected: false,
+      session:1
     };
   },
   sockets: {
@@ -58,52 +59,52 @@ export default {
     disconnect() {
       this.isConnected = false;
     },
-
-    thermometerChannel(data) {
-      this.thermometerPacket = new VitalPacket(
-        data.battery,
-        data.risk,
-        Number(data.raw).toFixed(1)
-      );
-    },
-    ecgChannel(data) {
-      this.ecgPacket = new VitalPacket(
-        data.battery,
-        data.risk,
-        Number(data.raw).toFixed(1)
-      );
-    },
-    oximeterChannel(data) {
-      this.oximeterPacket = new VitalPacket(
-        data.battery,
-        data.risk,
-        Number(data.raw).toFixed(1)
-      );
-    },
-    bpmsChannel(data) {
-      this.bpmsPacket = new VitalPacket(
-        data.battery,
-        data.risk,
-        Number(data.raw).toFixed(1)
-      );
-    },
-    bpmdChannel(data) {
-      this.bpmdPacket = new VitalPacket(
-        data.battery,
-        data.risk,
-        Number(data.raw).toFixed(1)
-      );
-    },
-    patientChannel(data) {
-      data.data = Number(data.data).toFixed(1);
-      this.patientPacket = data;
-    },
+    // patientChannel(data) {
+    //   data.data = Number(data.data).toFixed(1);
+    //   this.patientPacket = data;
+    // },
     reliabilityChannel(data) {
       this.systemReliability = data;
     },
     costChannel(data) {
       this.systemCost = data;
     }
+  },
+  methods: {
+    handleSensorPacket(data, sensor) {
+      this[sensor + "Packet"] = new VitalPacket(
+        data.battery,
+        data.risk,
+        Number(data.raw).toFixed(1)
+      );
+    },
+    handlePatientPacket(data) {
+      data.data = Number(data.data).toFixed(1);
+      this.patientPacket = data;
+    }
+  },
+  created() {
+    /* eslint-disable no-console */
+    this.session = this.$route.query.session;
+
+    this.sockets.subscribe("thermometerChannel=" + this.session, data =>
+      this.handleSensorPacket(data, "thermometer")
+    );
+    this.sockets.subscribe("ecgChannel=" + this.session, data =>
+      this.handleSensorPacket(data, "ecg")
+    );
+    this.sockets.subscribe("bpmsChannel=" + this.session, data =>
+      this.handleSensorPacket(data, "bpms")
+    );
+    this.sockets.subscribe("bpmdChannel=" + this.session, data =>
+      this.handleSensorPacket(data, "bpmd")
+    );
+    this.sockets.subscribe("oximeterChannel=" + this.session, data =>
+      this.handleSensorPacket(data, "oximeter")
+    );
+    this.sockets.subscribe("patientChannel=" + this.session, data =>
+      this.handlePatientPacket(data)
+    );
   }
 };
 </script>
