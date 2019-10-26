@@ -23,11 +23,11 @@ export default {
 
     disconnect() {
       this.isConnected = false;
-    },
-  },  
+    }
+  },
 
   created() {
-    this.sockets.subscribe("pingChannel", (data) => this.handleMessage(data));
+    this.sockets.subscribe("pingChannel", data => this.handleMessage(data));
   },
 
   methods: {

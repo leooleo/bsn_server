@@ -8,15 +8,11 @@ export default {
   components: {
     GChart
   },
+  props :{
+    chartData : Array
+  },
   data() {
-    return {      
-      chartData: [
-        ["Time", "Reliability", "Cost"],
-        [new Date(2000, 8, 5, 0, 30, 0), 100, 100],
-        [new Date(2000, 8, 5, 0, 33, 0), 90, 80],
-        [new Date(2000, 8, 5, 0, 34, 0), 84, 56],
-        [new Date(2000, 8, 5, 0, 38, 0), 95, 80]
-      ],
+    return { 
       chartOptions: {
         curveType: "function",
         hAxis: {

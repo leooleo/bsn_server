@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <navigationBar isRealTime="false"></navigationBar>        
-        <chart></chart>
-    </div>
+  <div>
+    <navigationBar isRealTime="false"></navigationBar>
+    <chart :chartData="this.chartData"></chart>
+  </div>
 </template>
 
 <script>
@@ -10,12 +10,40 @@ import navigationBar from "../components/views/navigation_bar";
 import chart from "../components/viewModels/chart_view_model";
 
 export default {
-    components: {
-        navigationBar,
-        chart
+  components: {
+    navigationBar,
+    chart
+  },
+  data() {
+    return {
+      chartData:  [["Time", "Reliability", "Cost"]],
+      session: 1
     }
-    
-}
+  },
+  created() {
+    var routeSession = this.$route.query.session;    
+    if(routeSession != null && routeSession != undefined)
+      this.session = routeSession;
+
+    /* eslint-disable no-console */
+    this.axios
+      .get("https://bsnapi.herokuapp.com/getRelCosData?session=" + this.session)
+      .then(response => {
+        response = response.data;
+        var result = []
+        for (var i in response) {
+          var obj = response[i];
+          var reliability = obj.reliability;
+          var cost = obj.cost;
+          var date = new Date(obj.timeinserted);
+          result.push([date, reliability, cost]);
+          this.chartData.push([date, reliability, cost])
+        }
+        console.log(this.chartData)
+        console.log(result)
+      });
+  }
+};
 </script>
 
 <style>
