@@ -1,7 +1,17 @@
 <template>
   <div>
     <navigationBar isRealTime="false"></navigationBar>
-    <chart :chartData="this.chartData"></chart>
+    <div v-if="loading">
+      <div class="text-center center">
+        <b-spinner class="largeSpin" variant="primary" label="Text Centered"></b-spinner>
+        <br>
+        <h5 class="mt-3">Loading content. Please wait... </h5>
+      </div> 
+    </div>
+
+    <div v-else>
+      <chart :chartData="this.chartData"></chart>
+    </div>
   </div>
 </template>
 
@@ -17,7 +27,8 @@ export default {
   data() {
     return {
       chartData:  [["Time", "Reliability", "Cost"]],
-      session: 1
+      session: 1,
+      loading: true
     }
   },
   created() {
@@ -39,8 +50,7 @@ export default {
           result.push([date, reliability, cost]);
           this.chartData.push([date, reliability, cost])
         }
-        console.log(this.chartData)
-        console.log(result)
+        this.loading = false;
       });
   }
 };
@@ -50,6 +60,21 @@ export default {
 body {
   font-family: Arial Black, Arial Bold, Gadget, sans-serif;
 }
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.largeSpin {
+  width: 3.5rem; 
+  height: 3.5rem;
+}
+
 .page_title {
   margin-left: 6rem;
   margin-top: 3rem;
