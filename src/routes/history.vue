@@ -4,9 +4,9 @@
     <div v-if="loading">
       <div class="text-center center">
         <b-spinner class="largeSpin" variant="primary" label="Text Centered"></b-spinner>
-        <br>
-        <h5 class="mt-3">Loading content. Please wait... </h5>
-      </div> 
+        <br />
+        <h5 class="mt-3">Loading content. Please wait...</h5>
+      </div>
     </div>
 
     <div v-else>
@@ -26,14 +26,14 @@ export default {
   },
   data() {
     return {
-      chartData:  [["Time", "Reliability", "Cost"]],
+      chartData: [["Time", "Reliability", "Cost"]],
       session: 1,
       loading: true
-    }
+    };
   },
   created() {
-    var routeSession = this.$route.query.session;    
-    if(routeSession != null && routeSession != undefined)
+    var routeSession = this.$route.query.session;
+    if (routeSession != null && routeSession != undefined)
       this.session = routeSession;
 
     /* eslint-disable no-console */
@@ -41,14 +41,14 @@ export default {
       .get("https://bsnapi.herokuapp.com/getRelCosData?session=" + this.session)
       .then(response => {
         response = response.data;
-        var result = []
+        var result = [];
         for (var i in response) {
           var obj = response[i];
           var reliability = obj.reliability;
           var cost = obj.cost;
           var date = new Date(obj.timeinserted);
           result.push([date, reliability, cost]);
-          this.chartData.push([date, reliability, cost])
+          this.chartData.push([date, reliability, cost]);
         }
         this.loading = false;
       });
@@ -71,7 +71,7 @@ body {
 }
 
 .largeSpin {
-  width: 3.5rem; 
+  width: 3.5rem;
   height: 3.5rem;
 }
 

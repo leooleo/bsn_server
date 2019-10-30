@@ -17,6 +17,7 @@ import WebSocket from './components/WebSocket.vue'
 import history from './routes/history.vue'
 import monitor from './routes/monitor.vue'
 import teste from './components/teste.vue'
+import home from './routes/home.vue'
 
 // Usages
 Vue.use(BootstrapVue)
@@ -25,7 +26,7 @@ Vue.use(VueAxios, axios)
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'https://bsnapi.herokuapp.com/',  
+  connection: 'http://localhost:8081/',  
 }));
 
 Vue.use(VueRouter);
@@ -40,7 +41,7 @@ const routes = [
   { path: '/teste', component: teste },
   { path: '/monitor', component: monitor },
   { path: '/history', component: history },
-  { path: '/', component: monitor },
+  { path: '/', component: home },
   { path: '/ws', component: WebSocket }
 ];
 

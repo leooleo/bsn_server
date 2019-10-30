@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar type="dark" variant="primary">
-      <b-navbar-brand href="#">
+      <b-navbar-brand href="#/">
         <h4 style="margin-right: 4rem;">Body Sensor Network</h4>
       </b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
