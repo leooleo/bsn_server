@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navigationBar isRealTime="false"></navigationBar>
+    <navigationBar page="history"></navigationBar>
     <div v-if="loading">
       <div class="text-center center">
         <b-spinner class="largeSpin" variant="primary" label="Text Centered"></b-spinner>

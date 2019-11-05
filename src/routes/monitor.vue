@@ -1,6 +1,6 @@
 <template>
   <div id="my-monitor">
-    <navigationBar isRealTime="true"></navigationBar>
+    <navigationBar page="realTime"></navigationBar>
 
     <h5 class="page_title">Sensors data (session {{this.session}})</h5>
     <b-card-group deck style="margin-left: 5rem;">

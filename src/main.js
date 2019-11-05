@@ -14,6 +14,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 // Components
 import alertIcon from 'vue-material-design-icons/Alert.vue'
 import WebSocket from './components/WebSocket.vue'
+import bsnControl from './routes/bsn_control.vue'
 import history from './routes/history.vue'
 import monitor from './routes/monitor.vue'
 import teste from './components/teste.vue'
@@ -41,6 +42,7 @@ const routes = [
   { path: '/teste', component: teste },
   { path: '/monitor', component: monitor },
   { path: '/history', component: history },
+  { path: '/control', component: bsnControl },
   { path: '/', component: home },
   { path: '/ws', component: WebSocket }
 ];

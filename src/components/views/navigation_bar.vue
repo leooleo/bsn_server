@@ -16,12 +16,13 @@
 
 <script>
 export default {
-  props: ['isRealTime'],
+  props: ['page'],
 
   data() {
     return {
-      realTime: this.isRealTime == "true",
-      history: this.isRealTime == "false"
+      realTime: this.page == "realTime",
+      history: this.page == "history",
+      home: this.page == "home",
     };
   }
 };
