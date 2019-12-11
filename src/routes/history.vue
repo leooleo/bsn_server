@@ -10,7 +10,10 @@
     </div>
 
     <div v-else>
-      <chart :chartData="this.chartData"></chart>
+      <div v-if="this.chartData.length == 1" id="description">
+        There is no content to fetch at the moment.
+      </div>
+      <chart v-else :chartData="this.chartData"></chart>
     </div>
   </div>
 </template>
@@ -50,6 +53,7 @@ export default {
           result.push([date, reliability, cost]);
           this.chartData.push([date, reliability, cost]);
         }
+        console.log(this.chartData);
         this.loading = false;
       });
   }
@@ -79,5 +83,14 @@ body {
   margin-left: 6rem;
   margin-top: 3rem;
   font-size: 150%;
+}
+#description {
+  margin-left: 100px;
+  width: 70%;
+  font-size: 120%;
+  color: #515151;
+  text-align: center;
+  margin-top: 80px;
+  margin-bottom: 80px;
 }
 </style>
