@@ -29,7 +29,6 @@
   </div>
 </template>
 <script>
-import { timeout } from 'q';
 export default {
   data() {
     return {
