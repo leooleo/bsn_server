@@ -7,15 +7,18 @@
     </div>
     <div v-else-if="bsnStatus == 'alive'" id="description">
       <div v-if="isBsnActive">
-        Bsn is currently active!
-        <br />Would tou like to monitor or stop it?
-        <b-button id="buttons" @click="monitor()" variant="primary">monitor</b-button>
-        <b-button id="buttons" @click="stop()" variant="danger">Stop</b-button>
+        <p>
+          Bsn is currently active.Would tou like to monitor or stop it?
+          <b-button id="buttons" @click="start()" variant="success">Start</b-button>
+          <b-button id="buttons" @click="monitor()" variant="primary">monitor</b-button>
+          <b-button id="buttons" @click="stop()" variant="danger">Stop</b-button>
+        </p>
       </div>
       <div v-else>
-        Bsn is currently inactive
-        <br />Would tou like to start it?
-        <b-button id="buttons" @click="start()" variant="success">Start</b-button>
+        <p>
+          Bsn is currently inactive. Would you like to start it?
+          <b-button id="buttons" @click="start()" variant="success">Start</b-button>
+        </p>
       </div>
     </div>
     <div v-else-if="bsnStatus == 'starting'" id="description">
@@ -46,7 +49,7 @@ export default {
         this.bsnStatus = "alive";
       })
       .catch(error => {
-        console.log(error)
+        console.log(error);
         this.bsnStatus = "dead";
       });
   },

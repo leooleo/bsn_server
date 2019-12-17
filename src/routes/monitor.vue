@@ -70,9 +70,9 @@ export default {
         Number(data.raw).toFixed(1)
       );
     },
-    handlePatientPacket(data) {
-      data.data = Number(data.data).toFixed(1);
-      this.patientPacket = data;
+    handlePatientPacket(data) {      
+      data = Number(data).toFixed(1);
+      this.patientPacket = {'data' : data, 'alert' : (data > 60)};
     }
   },
   created() {
