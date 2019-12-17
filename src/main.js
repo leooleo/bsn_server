@@ -25,7 +25,7 @@ Vue.use(VueAxios, axios)
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'http://localhost:8081/',  
+  connection: 'https://bsnapi.herokuapp.com/',  
 }));
 
 Vue.use(VueRouter);
