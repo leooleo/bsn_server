@@ -8,8 +8,7 @@
     <div v-else-if="bsnStatus == 'alive'" id="description">
       <div v-if="isBsnActive">
         <p>
-          Bsn is currently active.Would tou like to monitor or stop it?
-          <b-button id="buttons" @click="start()" variant="success">Start</b-button>
+          Bsn is currently active.Would tou like to monitor or stop it?          
           <b-button id="buttons" @click="monitor()" variant="primary">monitor</b-button>
           <b-button id="buttons" @click="stop()" variant="danger">Stop</b-button>
         </p>
