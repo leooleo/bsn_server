@@ -42,7 +42,7 @@ export default {
     /* eslint-disable no-console */
 
     this.axios
-      .get("http://164.41.75.167:8080/isActive")
+      .get("https://bsnapi.herokuapp.com/isBsnActive")
       .then(response => {
         this.isBsnActive = response.data;
         this.bsnStatus = "alive";
@@ -55,7 +55,7 @@ export default {
   methods: {
     start() {
       this.bsnStatus = "starting";
-      this.axios.get("http://164.41.75.167:8080/start").then(response => {
+      this.axios.get("https://bsnapi.herokuapp.com/startBsn").then(response => {
         if (response.data == "started") {
           this.isBsnActive = true;
           this.bsnStatus = "alive";
@@ -63,7 +63,7 @@ export default {
       });
     },
     stop() {
-      this.axios.get("http://164.41.75.167:8080/stop").then(response => {
+      this.axios.get("https://bsnapi.herokuapp.com/stopBsn").then(response => {
         if (response.data == "stopped") {
           this.isBsnActive = false;
         }

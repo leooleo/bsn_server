@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vue-headful title="Home Page" description="" />
     <navigationBar page="home"></navigationBar>    
     <bsnInterface></bsnInterface>
     <homeDescription></homeDescription>

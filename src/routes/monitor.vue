@@ -1,5 +1,6 @@
 <template>
   <div id="my-monitor">
+    <vue-headful title="Monitor" description="Monitor vital signs" />
     <navigationBar page="realTime"></navigationBar>
 
     <h5 class="page_title">Sensors data (session {{this.session}})</h5>
@@ -7,8 +8,8 @@
       <cardVM :packet="this.thermometerPacket" sensorName="Thermometer" sensorUnit=" Cº"></cardVM>
       <cardVM :packet="this.ecgPacket" sensorName="ECG" sensorUnit=" bpm"></cardVM>
       <cardVM :packet="this.oximeterPacket" sensorName="Oximeter" sensorUnit="%"></cardVM>
-      <cardVM :packet="this.bpmsPacket" sensorName="Bpms" sensorUnit=" mmHg"></cardVM>
-      <cardVM :packet="this.bpmdPacket" sensorName="Bpmd" sensorUnit=" mmHg"></cardVM>
+      <cardVM :packet="this.abpsPacket" sensorName="Abps" sensorUnit=" mmHg"></cardVM>
+      <cardVM :packet="this.abpaPacket" sensorName="Abpa" sensorUnit=" mmHg"></cardVM>
     </b-card-group>
 
     <h5 class="page_title">Patient Risk</h5>
@@ -37,8 +38,8 @@ export default {
     return {
       thermometerPacket: new VitalPacket(),
       oximeterPacket: new VitalPacket(),
-      bpmsPacket: new VitalPacket(),
-      bpmdPacket: new VitalPacket(),
+      abpsPacket: new VitalPacket(),
+      abpaPacket: new VitalPacket(),
       ecgPacket: new VitalPacket(),
       systemCost: "0",
       systemReliability: "0",
@@ -70,15 +71,15 @@ export default {
         Number(data.raw).toFixed(1)
       );
     },
-    handlePatientPacket(data) {      
+    handlePatientPacket(data) {
       data = Number(data).toFixed(1);
-      this.patientPacket = {'data' : data, 'alert' : (data > 60)};
+      this.patientPacket = { data: data, alert: data > 60 };
     }
   },
   created() {
     /* eslint-disable no-console */
-    var routeSession = this.$route.query.session;    
-    if(routeSession != null && routeSession != undefined)
+    var routeSession = this.$route.query.session;
+    if (routeSession != null && routeSession != undefined)
       this.session = routeSession;
 
     this.sockets.subscribe("thermometerChannel=" + this.session, data =>
@@ -87,11 +88,11 @@ export default {
     this.sockets.subscribe("ecgChannel=" + this.session, data =>
       this.handleSensorPacket(data, "ecg")
     );
-    this.sockets.subscribe("bpmsChannel=" + this.session, data =>
-      this.handleSensorPacket(data, "bpms")
+    this.sockets.subscribe("ABPSChannel=" + this.session, data =>
+      this.handleSensorPacket(data, "abps")
     );
-    this.sockets.subscribe("bpmdChannel=" + this.session, data =>
-      this.handleSensorPacket(data, "bpmd")
+    this.sockets.subscribe("ABPAChannel=" + this.session, data =>
+      this.handleSensorPacket(data, "abpa")
     );
     this.sockets.subscribe("oximeterChannel=" + this.session, data =>
       this.handleSensorPacket(data, "oximeter")

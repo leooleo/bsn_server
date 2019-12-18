@@ -3,6 +3,7 @@ import axios from 'axios'
 import App from './App.vue'
 import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
+import vueHeadful from 'vue-headful';
 import VueSocketIO from 'vue-socket.io'
 import BootstrapVue from 'bootstrap-vue'
 import VueGoogleCharts from 'vue-google-charts'
@@ -25,7 +26,7 @@ Vue.use(VueAxios, axios)
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'https://bsnapi.herokuapp.com/',  
+  connection: 'https://bsnapi.herokuapp.com/',
 }));
 
 Vue.use(VueRouter);
@@ -33,14 +34,15 @@ Vue.use(VueRouter);
 Vue.use(VueGoogleCharts);
 
 Vue.component('alert-icon', alertIcon);
+Vue.component('vue-headful', vueHeadful);
 
 // Initializations
 
-const routes = [  
-  { path: '/monitor', component: monitor },
-  { path: '/history', component: history },
-  { path: '/', component: home },
-  { path: '/ws', component: WebSocket }
+const routes = [
+  { path: '/monitor', name:'BSN', component: monitor, meta: { title: 'BSN' } },
+  { path: '/history', name:'BSN', component: history, meta: { title: 'BSN' } },
+  { path: '/', name:'BSN', component: home, meta: { title: 'BSN' } },
+  { path: '/ws', name:'BSN', component: WebSocket, meta: { title: 'BSN' } }
 ];
 
 const router = new VueRouter({

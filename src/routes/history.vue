@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vue-headful title="System History" description="System reliability and cost history" />
     <navigationBar page="history"></navigationBar>
     <div v-if="loading">
       <div class="text-center center">
