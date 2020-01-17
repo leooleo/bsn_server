@@ -1,0 +1,30 @@
+{
+    "ThermometerPacket" : {
+        "battery" : 100,
+        "risk" : 100,
+        "raw" : 100
+    },
+    "EcgPacket": {
+        "battery": 100,
+        "risk": 100,
+        "raw": 100
+    },
+    "OximeterPacket": {
+        "battery": 100,
+        "risk": 100,
+        "raw": 100
+    },
+    "ABPDPacket": {
+        "battery": 100,
+        "risk": 100,
+        "raw": 100
+    },
+    "ABPSPacket": {
+        "battery": 100,
+        "risk": 100,
+        "raw": 100
+    },
+    "PatientRisk" : 100,
+    "Reliability" : 100,
+    "Cost" : 100
+}
