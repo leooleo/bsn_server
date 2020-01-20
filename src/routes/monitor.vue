@@ -9,7 +9,7 @@
       <cardVM :packet="this.ecgPacket" sensorName="ECG" sensorUnit=" bpm"></cardVM>
       <cardVM :packet="this.oximeterPacket" sensorName="Oximeter" sensorUnit="%"></cardVM>
       <cardVM :packet="this.abpsPacket" sensorName="Abps" sensorUnit=" mmHg"></cardVM>
-      <cardVM :packet="this.abpdPacket" sensorName="Abpa" sensorUnit=" mmHg"></cardVM>
+      <cardVM :packet="this.abpdPacket" sensorName="Abpd" sensorUnit=" mmHg"></cardVM>
     </b-card-group>
 
     <h5 class="page_title">Patient Risk</h5>
@@ -92,7 +92,7 @@ export default {
       this.handleSensorPacket(data, "abps")
     );
     this.sockets.subscribe("ABPDChannel=" + this.session, data =>
-      this.handleSensorPacket(data, "abpa")
+      this.handleSensorPacket(data, "abpd")
     );
     this.sockets.subscribe("oximeterChannel=" + this.session, data =>
       this.handleSensorPacket(data, "oximeter")
