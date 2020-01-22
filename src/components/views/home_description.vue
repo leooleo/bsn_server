@@ -2,43 +2,52 @@
   <div>
     <div id="simple_header" style="margin-top:30px">Overview</div>
     <div id="project_description">
-      The Body Sensor Network (BSN) is a prototype of a cyber-physical system that relies on a network of wifi sensors to monitor the human body vital signs. <br />This is a project initiated on an academic research at Unb(University of Brasília) by Genaína Rodrigues and her students. This server is focused on the remote execution and monitoring of the BSN.
+      A Body Sensor Network consists in a group of sensors on, near or inside the body, collecting vital data. There may be a 
+      central node responsible for processing the data.   
+
+      The BSN is a prototypical implementation of a Body Sensor Network as a system to be
+      managed alongside a runtime goal-model for the analysis step at the
+      system manager. We have implemented the BSN within the widely
+      adopted Robot Operating System (ROS) for the sake of extensibility
+      and maintainability. In the basic scenario, the BSN is prone to online 
+      self-configuration for reliability or cost maintenance. Our BSN implementation
+      consists in five sensors with a central node, responsible for fusing the data and 
+      detecting an emergency. Each data collected by the sensors are classified by low, medium or 
+      high risk, as described in the table below.
+      <br />
+      <br />
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+          <img src="../../assets/table.png" />
+        </div>
+      </div>
+
+      <br />
       -> explicar em funcao da fig 1 do artigo.
       -> table 1
     </div>
     <div id="simple_header" style="margin-top:30px">Implementation</div>
     <div id="project_description">
       ->fig 2
-    </div>
-
-    <div id="simple_header">How does it work</div>
-    <div id="project_description">
-      The BSN is written on C++, for this language is able to provide a fast and reliable execution. Also the Robot Operating System middlware for real time systems was used to develop this artefact.
-      <br />The system uses configuration to explicit what it expects as a healthy data.
-      To generate and simulate data, a Markov Chain is used which is a model where the probabilitie
-      of each state relies on the previous probabilities.
-      You can read more about it on wikipedia
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://en.wikipedia.org/wiki/Markov_chain"
-      >here</a>
-      or watching this great video clicking
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://youtu.be/rFPySEM6rNE?t=78"
-      >here</a>.
-      <br />After generating, the data will be filtered using a moving average technique to remove noise.
-      Later on it will be evaluated to calculate its risk. To understand deeper how it works please check
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://github.com/leooleo/bsn"
-      >our repository</a>.
-      <br />
-      <br />To remotely execute, the BSN relies on an API written on Python3, which provides every feature available for this server. 
-      You can check our repositories used for the BSN on our own Gits, located on the page bottom.
+      The end-to-end design of the proposed prototype followed the
+      process illustrated in Fig. 1. From one side there are the system
+      requirements expressed in the representation of a contextual goal
+      model. From the other, an implementation view of the runtime
+      self-adaptive system according to ROS architecture. Both models,
+      the left hand side CGM and the right hand side code for exercising
+      distinct configurations of the prototype and system managers are
+      provided as 1 artifacts.
+      The process is performed as follows: (1) a CGM was specified
+      based on requirements elicited in previous works. (2) Then,
+      a transformation from goal model to parametric formula was per-
+      formed with GODA-MDP. (3) Following a mapping from goal
+      model to software components, ros nodes were implemented to
+      collaborate and satisfy the root goal. (4) The prototype is configured
+      and integrated to a system manager (uses the parametric formula
+      for reasoning), the knowledge repository and simulation nodes. (5)
+      Finally, the prototype is executed and monitored via an interface
+      during runtime.
     </div>
 
     <div id="simple_header">How to experiment</div>
@@ -188,4 +197,10 @@
 
   float: left;
 }
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>
