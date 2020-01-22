@@ -1,10 +1,15 @@
 <template>
   <div>
+    <div id="simple_header">Overview</div>
+    -> explicar em funcao da fig 1 do artigo.
+    -> table 1
+    <div id="simple_header">Implementation</div>
+    ->fig 2
+    <div id="simple_header">How to experiment</div>
+
     <div id="simple_header" style="margin-top:30px">About the project</div>
     <div id="project_description">
-      The Body Sensor Network (BSN) is a prototype of a cyber-physical system that relies on a network of wifi sensors to monitor the human body vital signs. 
-      <br />This is a project initiated on an academic research at Unb(University of Brasília) by Genaína Rodrigues and her students.
-      This server is focused on the remote execution and monitoring of the BSN.
+      The Body Sensor Network (BSN) is a prototype of a cyber-physical system that relies on a network of wifi sensors to monitor the human body vital signs. <br />This is a project initiated on an academic research at Unb(University of Brasília) by Genaína Rodrigues and her students. This server is focused on the remote execution and monitoring of the BSN.
     </div>
 
     <div id="simple_header">How does it work</div>
@@ -160,7 +165,7 @@
 }
 #project_description {
   margin-left: 100px;
-  width: 70%;
+  margin-right: 100px;
   font-size: 130%;
   color: #515151;
   margin-top: 80px;
