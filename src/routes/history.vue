@@ -12,17 +12,15 @@
 
     <div v-else>
       <div
-        v-if="this.chartData.length == 1"
         id="description"
-      >There is no content to fetch in the last 30 minutes.</div>
-      <div v-else>
-        <div
-          id="description"
-          style="margin-bottom: 0px !important;margin-top: 15px !important;"
-        >This page will automatically reload in {{timeToReload}} seconds.</div>
-      </div>
-      <chart  :chartData="this.chartData"></chart>
+        style="margin-bottom: 0px !important;margin-top: 15px !important;"
+      >This page will automatically reload in {{timeToReload}} seconds.</div>
     </div>
+    <div
+      v-if="this.chartData.length == 1"
+      id="description"
+    >There is no content to fetch in the last 30 minutes.</div>
+    <chart v-else :chartData="this.chartData"></chart>
   </div>
 </template>
 
