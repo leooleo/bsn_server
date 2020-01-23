@@ -2,15 +2,22 @@
   <div>
     <div id="simple_header" style="margin-top:30px">Overview</div>
     <div id="project_description">
-      A Body Sensor Network consists in a group of sensors on, near or inside the body, collecting vital data. There may be a 
-      central node responsible for processing the data.   
+      A Body Sensor Network (BSN) consists in a group of sensors on, near or inside the body, collecting vital data, 
+      as exemplified below. There may be a central node responsible for processing the data.
+<br />
+      <br />
+                      fig 1
+<br />
+      <br />
+      The main objective of a Body Sensor Network is to continuously monitor
+      an individual vital signs and for that, a Body Sensor Network must have a good energetic efficience.
 
-      The BSN is a prototypical implementation of a Body Sensor Network as a system to be
+      This project is a prototypical implementation of a Body Sensor Network as a system to be
       managed alongside a runtime goal-model for the analysis step at the
       system manager. We have implemented the BSN within the widely
       adopted Robot Operating System (ROS) for the sake of extensibility
       and maintainability. In the basic scenario, the BSN is prone to online 
-      self-configuration for reliability or cost maintenance. Our BSN implementation
+      self-configuration for reliability or cost maintenance. Our implementation
       consists in five sensors with a central node, responsible for fusing the data and 
       detecting an emergency. Each data collected by the sensors are classified by low, medium or 
       high risk, as described in the table below.
@@ -24,12 +31,19 @@
       </div>
 
       <br />
-      -> explicar em funcao da fig 1 do artigo.
-      -> table 1
     </div>
     <div id="simple_header" style="margin-top:30px">Implementation</div>
     <div id="project_description">
-      ->fig 2
+      The BSN is a multi process system implemented using C++ and ROS for 
+      proccess communication.
+
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+          <img id="img2" src="../../assets/gm_architecture.png" />
+        </div>
+      </div>
+
       The end-to-end design of the proposed prototype followed the
       process illustrated in Fig. 1. From one side there are the system
       requirements expressed in the representation of a contextual goal
@@ -52,7 +66,12 @@
 
     <div id="simple_header">How to experiment</div>
     <div id="project_description">
-      <p>The setup and usage of the BSN to evaluate, test and compare self-adaptation solutions and algorithms will be described below, in a step-by-step case study with five sensors. The configuration and launch of each module is done using a XML file named roslaunch. Each of these files contains parameters which are read and mapped to variables in the set up method of each module. All roslaunch files are in the configuration folder and the parameters can be modified as required.  </p>
+      <p>The setup and usage of the BSN to evaluate, test and compare self-adaptation solutions 
+      and algorithms will be described below, in a step-by-step case study with five sensors. 
+      The configuration and launch of each module is done using a XML file named roslaunch. 
+      Each of these files contains parameters which are read and mapped to variables in the set up 
+      method of each module. All roslaunch files are in the configuration folder and the parameters 
+      can be modified as required.  </p>
       <h4 id="step-1-getting-bsn">Step 1: Getting BSN</h4>
       <p>The BSN <a href="https://github.com/lesunb/bsn" title="BSN repository">repository</a> contains the source code and the installation tutorial.</p>
       <h4 id="step-2-data-collection-setup">Step 2: Data Collection Setup</h4>
@@ -196,6 +215,11 @@
   font-size: 55%;
 
   float: left;
+}
+
+#img2 {
+  width: 800px;
+  height: auto;
 }
 
 .center {
