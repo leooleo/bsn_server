@@ -19,7 +19,12 @@ export default {
           title: 'TimeStamp'
         },
         vAxis: {
-          title: 'Percentage'
+          title: 'Percentage',
+          viewWindowMode:'explicit',
+          viewWindow:{
+            max:100,
+            min:0
+          }
         },
       }
     };
