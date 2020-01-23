@@ -25,7 +25,7 @@ Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
 
 Vue.use(new VueSocketIO({
-  debug: true,
+  debug: false,
   connection: 'https://bsnapi.herokuapp.com/',
 }));
 
@@ -39,10 +39,10 @@ Vue.component('vue-headful', vueHeadful);
 // Initializations
 
 const routes = [
-  { path: '/monitor', name:'BSN', component: monitor, meta: { title: 'BSN' } },
-  { path: '/history', name:'BSN', component: history, meta: { title: 'BSN' } },
-  { path: '/', name:'BSN', component: home, meta: { title: 'BSN' } },
-  { path: '/ws', name:'BSN', component: WebSocket, meta: { title: 'BSN' } }
+  { path: '/monitor', component: monitor, meta: { title: 'BSN' } },
+  { path: '/history', component: history, meta: { title: 'BSN' } },
+  { path: '/', component: home, meta: { title: 'BSN' } },
+  { path: '/ws', component: WebSocket, meta: { title: 'BSN' } }
 ];
 
 const router = new VueRouter({
