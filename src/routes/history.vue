@@ -15,11 +15,13 @@
         v-if="this.chartData.length == 1"
         id="description"
       >There is no content to fetch in the last 30 minutes.</div>
-      <chart v-else :chartData="this.chartData"></chart>
-      <div
-        id="description"
-        style="margin-bottom: 0px !important;margin-top: 15px !important;"
-      >This page will automatically reload in {{timeToReload}} seconds.</div>
+      <div v-else>
+        <div
+          id="description"
+          style="margin-bottom: 0px !important;margin-top: 15px !important;"
+        >This page will automatically reload in {{timeToReload}} seconds.</div>
+      </div>
+      <chart  :chartData="this.chartData"></chart>
     </div>
   </div>
 </template>
@@ -59,7 +61,7 @@ export default {
     },
     updateReloadTime() {
       this.timeToReload -= 1;
-      if(this.timeToReload == 0) {
+      if (this.timeToReload == 0) {
         this.fetchHistoryData();
         this.timeToReload = this.reloadEverySeconds;
         this.chartData = [["Time", "Reliability", "Cost"]];
