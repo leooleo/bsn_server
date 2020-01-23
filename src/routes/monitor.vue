@@ -65,11 +65,16 @@ export default {
   },
   methods: {
     handleSensorPacket(data, sensor) {
+      if(data == null || data == undefined) {
+        console.log('Null data coming from sensor ' + sensor)
+        return;
+      }       
       this[sensor + "Packet"] = new VitalPacket(
         data.battery,
         data.risk,
         Number(data.raw).toFixed(1)
       );
+      
     },
     handlePatientPacket(data) {
       data = Number(data).toFixed(1);

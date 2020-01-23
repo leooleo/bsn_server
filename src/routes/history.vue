@@ -11,11 +11,16 @@
     </div>
 
     <div v-else>
-      <div v-if="this.chartData.length == 1" id="description">
-        There is no content to fetch at the moment.
-      </div>
-      <chart v-else :chartData="this.chartData"></chart>
+      <div
+        id="description"
+        style="margin-bottom: 0px !important;margin-top: 15px !important;"
+      >This page will automatically reload in {{timeToReload}} seconds.</div>
     </div>
+    <div
+      v-if="this.chartData.length == 1"
+      id="description"
+    >There is no content to fetch in the last 30 minutes.</div>
+    <chart v-else :chartData="this.chartData"></chart>
   </div>
 </template>
 
@@ -32,31 +37,55 @@ export default {
     return {
       chartData: [["Time", "Reliability", "Cost"]],
       session: 1,
-      loading: true
+      loading: true,
+      reloadEverySeconds: 60,
+      timeToReload: 60
     };
   },
   created() {
     var routeSession = this.$route.query.session;
-    if (routeSession != null && routeSession != undefined)
+    this.interval = setInterval(() => this.updateReloadTime(), 1000);
+    if (routeSession != null && routeSession != undefined) {
       this.session = routeSession;
+    }
 
-    /* eslint-disable no-console */
-    this.axios
-      .get("https://bsnapi.herokuapp.com/getRelCosData?session=" + this.session)
-      .then(response => {
-        response = response.data;
-        var result = [];
-        for (var i in response) {
-          var obj = response[i];
-          var reliability = obj.reliability;
-          var cost = obj.cost;
-          var date = new Date(obj.timeinserted);
-          result.push([date, reliability, cost]);
-          this.chartData.push([date, reliability, cost]);
-        }
-        console.log(this.chartData);
-        this.loading = false;
-      });
+    this.fetchHistoryData();
+  },
+  methods: {
+    formatDate(date) {
+      return (
+        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+      );
+    },
+    updateReloadTime() {
+      this.timeToReload -= 1;
+      if (this.timeToReload == 0) {
+        this.fetchHistoryData();
+        this.timeToReload = this.reloadEverySeconds;
+        this.chartData = [["Time", "Reliability", "Cost"]];
+      }
+    },
+    fetchHistoryData() {
+      /* eslint-disable no-console */
+      this.axios
+        .get(
+          "https://bsnapi.herokuapp.com/getRelCosData?session=" + this.session
+        )
+        .then(response => {
+          response = response.data;
+          var result = [];
+          for (var i in response) {
+            var obj = response[i];
+            var reliability = obj.reliability * 100;
+            var cost = obj.cost;
+            var date = this.formatDate(new Date(obj.timeinserted));
+            result.push([date, reliability, cost]);
+            this.chartData.push([date, reliability, cost]);
+          }
+          console.log(this.chartData);
+          this.loading = false;
+        });
+    }
   }
 };
 </script>
