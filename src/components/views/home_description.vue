@@ -4,14 +4,9 @@
     <div id="project_description">
       A Body Sensor Network (BSN) consists in a group of sensors on, near or inside the body, collecting vital data, 
       as exemplified below. There may be a central node responsible for processing the data.
-<br />
-      <br />
-                      fig 1
-<br />
-      <br />
       The main objective of a Body Sensor Network is to continuously monitor
       an individual vital signs and for that, a Body Sensor Network must have a good energetic efficience.
-
+    <br />
       This project is a prototypical implementation of a Body Sensor Network as a system to be
       managed alongside a runtime goal-model for the analysis step at the
       system manager. We have implemented the BSN within the widely
@@ -23,11 +18,9 @@
       high risk, as described in the table below.
       <br />
       <br />
-      <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-2">
-          <img src="../../assets/table.png" />
-        </div>
+
+      <div class="container3 ctr">
+        <img src="../../assets/table.png" />
       </div>
 
       <br />
@@ -36,14 +29,13 @@
     <div id="project_description">
       The BSN is a multi process system implemented using C++ and ROS for 
       proccess communication.
-
-      <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-2">
-          <img id="img2" src="../../assets/gm_architecture.png" />
-        </div>
+      
+      <div class="container3 ctr">
+        <img id="img2" alt="bsn" class="img-responsive" src="../../assets/gm_architecture.png" />
       </div>
-
+      <br />
+      <br />
+      
       The end-to-end design of the proposed prototype followed the
       process illustrated in Fig. 1. From one side there are the system
       requirements expressed in the representation of a contextual goal
@@ -62,6 +54,19 @@
       for reasoning), the knowledge repository and simulation nodes. (5)
       Finally, the prototype is executed and monitored via an interface
       during runtime.
+
+      <br />
+      The BSN itself is composed of five sensors: thermometer, eletrocardiograph, oximeter, systolic
+      and diastolic pressure sensor. Each sensor is a ROS node which consumes data from pacient node, 
+      filter and sends the data to central node, which fuse the data and calculate the patient's overall
+      status. The patient node generates the data using 5x5 Markov chains. Generally, this model defines 
+      probabilities of each state in order to maintain in its current position or migrating
+      to different ones. Using Markov chains it is possible to create estates that represent normal 
+      and abnormal health conditions. That enables profile generation as in order to simulate a healthy 
+      patient it is simply needed to maintain his sensors in normal condition states (healthy ones). 
+      Thus, there where defined 5 state in the data generating chain: high risk state with data below and 
+      above expected, medium risk state with data below and above expected and low risk state with data accordingly 
+      to expected. 
     </div>
 
     <div id="simple_header">How to experiment</div>
@@ -222,9 +227,11 @@
   height: auto;
 }
 
-.center {
-  margin-left: auto;
-  margin-right: auto;
+.ctr {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Centering y-axis */
+  align-items :center; /* Centering x-axis */
 }
 
 </style>
