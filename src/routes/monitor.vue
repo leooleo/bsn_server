@@ -5,7 +5,7 @@
 
     <h5 class="page_title">Sensors data (session {{this.session}})</h5>
     <b-card-group deck style="margin-left: 5rem;">
-      <cardVM :packet="this.thermometerPacket" sensorName="Thermometer" sensorUnit=" Cº"></cardVM>
+      <cardVM :packet="this.thermometerPacket" sensorName="Thermometer" sensorUnit=" ºC"></cardVM>
       <cardVM :packet="this.ecgPacket" sensorName="ECG" sensorUnit=" bpm"></cardVM>
       <cardVM :packet="this.oximeterPacket" sensorName="Oximeter" sensorUnit="%"></cardVM>
       <cardVM :packet="this.abpsPacket" sensorName="Abps" sensorUnit=" mmHg"></cardVM>

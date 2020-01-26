@@ -17,25 +17,32 @@
       >This page will automatically reload in {{timeToReload}} seconds.</div>
     </div>
     <div
-      v-if="this.chartData.length == 1"
+      v-if="this.reliChartData.length == 1"
       id="description"
     >There is no content to fetch in the last 30 minutes.</div>
-    <chart v-else :chartData="this.chartData"></chart>
+    <div v-else>
+      <reliChart :chartData="this.reliChartData"></reliChart>
+      <costChart :chartData="this.costChartData"></costChart>
+    </div>
+
   </div>
 </template>
 
 <script>
 import navigationBar from "../components/views/navigation_bar";
-import chart from "../components/viewModels/chart_view_model";
+import reliChart from "../components/viewModels/reli_chart_view_model";
+import costChart from "../components/viewModels/cost_chart_view_model";
 
 export default {
   components: {
     navigationBar,
-    chart
+    reliChart,
+    costChart
   },
   data() {
     return {
-      chartData: [["Time", "Reliability", "Cost"]],
+      reliChartData: [["Time", "Reliability"]],
+      costChartData: [["Time", "Cost"]],
       session: 1,
       loading: true,
       reloadEverySeconds: 30,
@@ -48,7 +55,6 @@ export default {
     if (routeSession != null && routeSession != undefined) {
       this.session = routeSession;
     }
-
     this.fetchHistoryData();
   },
   methods: {
@@ -62,7 +68,8 @@ export default {
       if (this.timeToReload == 0) {
         this.fetchHistoryData();
         this.timeToReload = this.reloadEverySeconds;
-        this.chartData = [["Time", "Reliability", "Cost"]];
+        this.reliChartData = [["Time", "Reliability"]];
+        this.costChartData = [["Time", "Cost"]];
       }
     },
     fetchHistoryData() {
@@ -77,13 +84,13 @@ export default {
           for (var i in response) {
             var obj = response[i];
             var reliability = obj.reliability;
-            console.log(reliability)
             var cost = obj.cost;
             var date = this.formatDate(new Date(obj.timeinserted));
             result.push([date, reliability, cost]);
-            this.chartData.push([date, reliability, cost]);
+            this.reliChartData.push([date, reliability]);
+            this.costChartData.push([date, cost]);
           }
-          console.log(this.chartData);
+          // console.log(this.chartData);
           this.loading = false;
         });
     }
