@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-headful title="System History" description="System reliability and cost history" />
+    <vue-headful title="System History" description="System reliability and cost" />
     <navigationBar page="history"></navigationBar>
     <div v-if="loading">
       <div class="text-center center">
@@ -38,8 +38,8 @@ export default {
       chartData: [["Time", "Reliability", "Cost"]],
       session: 1,
       loading: true,
-      reloadEverySeconds: 60,
-      timeToReload: 60
+      reloadEverySeconds: 30,
+      timeToReload: 30
     };
   },
   created() {
