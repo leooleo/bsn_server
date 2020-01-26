@@ -11,7 +11,7 @@
           <b-button id="buttons" @click="monitor()" variant="primary">Monitor</b-button>
           <b-button id="buttons" @click="stop()" variant="danger">Stop</b-button><br /> <br />
           <div style="font-size: 70%;">Obs.: it might take a while to get observable adaptations,
-           we have cautiously prepared an overview of the BSN while you wait for it (;</div>
+           we have carefully prepared an overview of the BSN while you wait for it (;</div>
       </div>
       <div v-else>
           The BSN is currently inactive. Would you like to start it? <br /> <br /> 
