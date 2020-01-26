@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="simple_header" style="margin-top:30px">Overview</div>
-    <div id="project_description">
+    <div id="project_description" >
       A Body Sensor Network (BSN) consists in a group of sensors on, near or inside the body, collecting vital data, 
       as exemplified below. There may be a central node responsible for processing the data.
       The main objective of a Body Sensor Network is to continuously monitor
@@ -26,7 +26,7 @@
       <br />
     </div>
     <div id="simple_header" style="margin-top:30px">Implementation</div>
-    <div id="project_description">
+    <div id="project_description" >
       The BSN is a multi process system implemented using C++ and ROS for 
       proccess communication.
       
@@ -47,7 +47,7 @@
       The process is performed as follows: (1) a CGM was specified
       based on requirements elicited in previous works. (2) Then,
       a transformation from goal model to parametric formula was per-
-      formed with GODA-MDP. (3) Following a mapping from goal
+      formed with <a href="https://pistar-goda.herokuapp.com/">GODA-MDP</a>. (3) Following a mapping from goal
       model to software components, ros nodes were implemented to
       collaborate and satisfy the root goal. (4) The prototype is configured
       and integrated to a system manager (uses the parametric formula
@@ -70,7 +70,7 @@
     </div>
 
     <div id="simple_header">How to experiment</div>
-    <div id="project_description">
+    <div id="project_description" >
       <p>The setup and usage of the BSN to evaluate, test and compare self-adaptation solutions 
       and algorithms will be described below, in a step-by-step case study with five sensors. 
       The configuration and launch of each module is done using a XML file named roslaunch. 
@@ -144,29 +144,26 @@
     </div>
 
     <div id="us_section">
-      <div style="font-size: 150%; margin-left: 60px;">About the dev's</div>
+      <div style="font-size: 150%; margin-left: 60px;">Our development team</div>
       <div id="credentials">
-        Ricardo Diniz Caldas Unb -
-        Computer Science master
+        Ricardo Diniz Caldas - PhD student at Chalmers
         <br />
-        <br />Gabriel Levi Gomes -
-        Unb Computer Science student
+        <br />Gabriel Levi Gomes - Undergrad Computer Science student at UnB
         <br />
-        <br />Léo Moraes da Silva -
-        Unb Computer Science student
+        <br />Léo Moraes da Silva - Undergrad Computer Science student at UnB
       </div>
       <div id="credentials">
-        <a target="_blank" rel="noopener noreferrer" href="https://github.com/rdinizcal">Github Page</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/rdinizcal">Github</a>
         <br />
         <br />
         <a
           target="_blank"
           rel="noopener noreferrer"
           href="https://github.com/gabrielevi10"
-        >Github Page</a>
+        >Github</a>
         <br />
         <br />
-        <a target="_blank" rel="noopener noreferrer" href="https://github.com/leooleo">Github Page</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/leooleo">Github</a>
         <br />
         <br />
         <br />
@@ -196,12 +193,13 @@
   font-size: 270%;
 }
 #project_description {
-  margin-left: 100px;
-  margin-right: 100px;
-  font-size: 130%;
-  color: #515151;
   margin-top: 80px;
   margin-bottom: 80px;
+  margin-left: 20%;
+  margin-right: 20%;
+  text-align: justify;
+  font-size: 130%;
+  color: #515151;
 }
 
 #us_section {
@@ -223,7 +221,7 @@
 }
 
 #img2 {
-  width: 800px;
+  width: 1100px;
   height: auto;
 }
 

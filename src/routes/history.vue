@@ -76,7 +76,8 @@ export default {
           var result = [];
           for (var i in response) {
             var obj = response[i];
-            var reliability = obj.reliability * 100;
+            var reliability = obj.reliability;
+            console.log(reliability)
             var cost = obj.cost;
             var date = this.formatDate(new Date(obj.timeinserted));
             result.push([date, reliability, cost]);
