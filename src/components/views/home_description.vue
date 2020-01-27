@@ -212,13 +212,17 @@
     <div id="us_section">
       <div style="font-size: 150%; margin-left: 60px;">Our development team</div>
       <div id="credentials">
-        Ricardo Diniz Caldas - PhD student at Chalmers
+        Dr. Genaína Nunes Rodrigues - Project Leader and Associate Professor at UnB
+        <br />Ricardo Diniz Caldas - PhD student at Chalmers
         <br />
         <br />Gabriel Levi Gomes - Undergrad Computer Science student at UnB
         <br />
         <br />Léo Moraes da Silva - Undergrad Computer Science student at UnB
       </div>
       <div id="credentials">
+        <a target="_blank" rel="noopener noreferrer" href="https://cic.unb.br/~genaina/">Page</a>
+        <br />
+        <br />
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/rdinizcal">Github</a>
         <br />
         <br />
