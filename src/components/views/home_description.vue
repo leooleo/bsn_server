@@ -105,7 +105,7 @@
         with .launch extension. These files contains parameters that can be read and mapped to variables
         in the set up method of each ros component. They can be found in the configuration folder from the
         project.
-        --All roslaunch files are in the configuration folder and the parameters 
+        <!--All roslaunch files are in the configuration folder and the parameters 
         can be modified as required.-->
       </p>
 
