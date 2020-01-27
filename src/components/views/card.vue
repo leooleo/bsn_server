@@ -4,7 +4,9 @@
     <b-card-body class="text-primary text-center cardBody">{{sensorRawData}}</b-card-body>
     <b-card-footer style="width: 15rem !important; margin-left:-20px !important;">
       <small class="text-muted cardFooterText" style="font-size: 1rem;">Sensor risk status</small>
-      <b-progress :value="Number(this.sensorEvalData)" striped></b-progress>
+      <b-progress striped>
+        <b-progress-bar :value="Number(this.sensorEvalData)" variant="danger"></b-progress-bar>
+      </b-progress>
     </b-card-footer>
     <b-card-footer
       class="cardFooter"
