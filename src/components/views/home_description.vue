@@ -213,6 +213,7 @@
       <div style="font-size: 150%; margin-left: 60px;">Our development team</div>
       <div id="credentials">
         Dr. Genaína Nunes Rodrigues - Project Leader and Associate Professor at UnB
+        <br />
         <br />Ricardo Diniz Caldas - PhD student at Chalmers
         <br />
         <br />Gabriel Levi Gomes - Undergrad Computer Science student at UnB
