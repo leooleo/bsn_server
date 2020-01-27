@@ -16,10 +16,10 @@ export default {
       chartOptions: {
         curveType: "function",
         hAxis: {
-          title: 'TimeStamp'
+          title: 'TimeStamp (hh:mm:ss)'
         },
         vAxis: {
-          title: 'Value',
+          title: 'Energy (W)',
           viewWindowMode:'explicit',
           viewWindow:{
             max:30,
