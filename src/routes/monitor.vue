@@ -10,12 +10,14 @@
       <cardVM :packet="this.oximeterPacket" sensorName="Oximeter" sensorUnit="%"></cardVM>
       <cardVM :packet="this.abpsPacket" sensorName="Abps" sensorUnit=" mmHg"></cardVM>
       <cardVM :packet="this.abpdPacket" sensorName="Abpd" sensorUnit=" mmHg"></cardVM>
+
     </b-card-group>
 
     <h5 class="page_title">Patient Risk</h5>
     <b-container style="margin-left: 5rem;">
       <b-row>
         <patientRiskCard :packet="patientPacket"></patientRiskCard>
+        <covidRiskCard :packet="patientCovidPacket"></covidRiskCard>
       </b-row>
     </b-container>
   </div>
@@ -26,13 +28,15 @@ import patientRiskCard from "../components/viewModels/patient_risk_card";
 import navigationBar from "../components/views/navigation_bar";
 import cardVM from "../components/viewModels/card_view_model";
 import VitalPacket from "../components/models/packet";
+import covidRiskCard from "../components/viewModels/covid_risk_card";
 
 export default {
   name: "my-monitor",
   components: {
     navigationBar,
     cardVM,
-    patientRiskCard
+    patientRiskCard,
+    covidRiskCard
   },
   data: function() {
     return {
@@ -44,6 +48,7 @@ export default {
       systemCost: "0",
       systemReliability: "0",
       patientPacket: { data: "0", alert: false },
+      patientCovidPacket: { data: "0", alert: false },
       isConnected: false,
       session: 1
     };
@@ -79,6 +84,12 @@ export default {
     handlePatientPacket(data) {
       data = Number(data).toFixed(1);
       this.patientPacket = { data: data, alert: data > 60 };
+    },
+
+    handleCovidPacket(oxg, temp) {
+      temp = Number(temp).toFixed(1);
+      oxg = Number(oxg).toFixed(1);
+      this.patientCovidPacket = { alert: ((oxg < 91) && (temp > 37.8)) };
     }
   },
   created() {
@@ -105,6 +116,7 @@ export default {
     this.sockets.subscribe("patientChannel=" + this.session, data =>
       this.handlePatientPacket(data)
     );
+    this.handleCovidPacket(this.oximeterPacket.raw, this.thermometerPacket.raw);
   }
 };
 </script>
