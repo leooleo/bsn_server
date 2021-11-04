@@ -48,7 +48,9 @@ export default {
       systemCost: "0",
       systemReliability: "0",
       patientPacket: { data: "0", alert: false },
-      patientCovidPacket: { data: "0", alert: false },
+      patientCovidPacket: {alert: true, oxg: 0, temp: 0},
+      oxg: {data: "0"},
+      temp: {data: "0"},
       isConnected: false,
       session: 1
     };
@@ -79,17 +81,30 @@ export default {
         data.risk,
         Number(data.raw).toFixed(1)
       );
-      
+      if( sensor == "oximeter") {
+        this.handleCovidOxg(data.raw)
+      }
+      else if( sensor == "thermometer") {
+        this.handleCovidTemp(data.raw)
+      }
     },
     handlePatientPacket(data) {
       data = Number(data).toFixed(1);
       this.patientPacket = { data: data, alert: data > 60 };
     },
 
-    handleCovidPacket(oxg, temp) {
-      temp = Number(temp).toFixed(1);
+    handleCovidOxg(oxg) {
       oxg = Number(oxg).toFixed(1);
-      this.patientCovidPacket = { alert: ((oxg < 91) && (temp > 37.8)) };
+      this.oxg = { data: oxg }
+      this.patientCovidPacket = { alert: ((this.oxg.data < 91) && (this.temp.data > 37.8)) };
+      //console.log(this.temp.data)
+    },
+
+    handleCovidTemp(temp) {
+      temp = Number(temp).toFixed(1);
+      this.temp = { data: temp}
+      this.patientCovidPacket = { alert: ((this.oxg.data < 91) && (this.temp.data > 37.8)) };
+      //console.log(this.oxg.data)
     }
   },
   created() {
@@ -116,7 +131,6 @@ export default {
     this.sockets.subscribe("patientChannel=" + this.session, data =>
       this.handlePatientPacket(data)
     );
-    this.handleCovidPacket(this.oximeterPacket.raw, this.thermometerPacket.raw);
   }
 };
 </script>
