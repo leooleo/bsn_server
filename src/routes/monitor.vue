@@ -8,6 +8,7 @@
       <cardVM :packet="this.thermometerPacket" sensorName="Thermometer" sensorUnit=" ºC"></cardVM>
       <cardVM :packet="this.ecgPacket" sensorName="ECG" sensorUnit=" bpm"></cardVM>
       <cardVM :packet="this.oximeterPacket" sensorName="Oximeter" sensorUnit="%"></cardVM>
+      <cardVM :packet="this.glucosePacket" sensorName="Glucose" sensorUnit=" mmol/L"></cardVM>
       <cardVM :packet="this.abpsPacket" sensorName="Abps" sensorUnit=" mmHg"></cardVM>
       <cardVM :packet="this.abpdPacket" sensorName="Abpd" sensorUnit=" mmHg"></cardVM>
     </b-card-group>
@@ -41,6 +42,7 @@ export default {
       abpsPacket: new VitalPacket(),
       abpdPacket: new VitalPacket(),
       ecgPacket: new VitalPacket(),
+      glucosePacket: new VitalPacket(),
       systemCost: "0",
       systemReliability: "0",
       patientPacket: { data: "0", alert: false },
@@ -92,6 +94,9 @@ export default {
     );
     this.sockets.subscribe("ecgChannel=" + this.session, data =>
       this.handleSensorPacket(data, "ecg")
+    );
+    this.sockets.subscribe("glucoseChannel=" + this.session, data =>
+      this.handleSensorPacket(data, "glucose")
     );
     this.sockets.subscribe("ABPSChannel=" + this.session, data =>
       this.handleSensorPacket(data, "abps")
