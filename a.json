@@ -24,6 +24,11 @@
         "risk": 100,
         "raw": 100
     },
+    "GlucosemeterPacket": {
+        "battery": 100,
+        "risk": 100,
+        "raw": 100
+    },
     "PatientRisk" : 100,
     "Reliability" : 100,
     "Cost" : 100
