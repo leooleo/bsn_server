@@ -14,10 +14,5 @@ Given that i am on the Vital Signs Page
 And any of the patients show a negative change in any of the covid-19 related vital signs
 Then i should see an covid-19 alert triggering in the patient session
 
-# sad path:
-Scenario: Any of the patients have a negative change in their covid-19 related vital signs but the alert is not triggering
-Given that i am on the Vital Signs Page
-And any of the patients show a negative change in any of the covid-19 related vital signs
-And their alert is not triggering
-...
+
 
