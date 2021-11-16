@@ -6,6 +6,7 @@
       :sensorName="this.sensorName"
       :sensorRawData="this.packet.raw + this.sensorUnit"
     ></cardTemplate>
+    <!-- a -->
   </div>
 </template>
 
