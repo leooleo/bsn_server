@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "node server.js"
+    "start": "node server.js",
+    "complexity-report": "./node_modules/.bin/es6-plato -r -d ./report src"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -30,6 +31,7 @@
     "@vue/cli-service": "^3.11.0",
     "babel-eslint": "^10.0.1",
     "cypress": "^9.0.0",
+    "es6-plato": "^1.2.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.6.10"
