@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint",
     "start": "node server.js",
     "complexity-report": "./node_modules/.bin/es6-plato -r -d ./report src",
+    "jest": "jest",
     "test": "npx cypress open",
     "test:ci": "npx cypress run --spec **/*.features",
     "test:tags": "npx cypress-tags run -e TAGS=$TAGS"
@@ -49,6 +50,7 @@
     "es6-plato": "^1.2.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "jest": "^27.3.1",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
