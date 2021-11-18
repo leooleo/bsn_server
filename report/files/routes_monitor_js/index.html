@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - routes/monitor.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/plato.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="https://github.com/the-simian/es6-plato">ES6 Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+      <li class="active">
+        <a href="display.html">Summary Display</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>routes/monitor.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">85.35</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">89</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">28.29</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.70</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">import patientRiskCard from &quot;../components/viewModels/patient_risk_card&quot;;
+import navigationBar from &quot;../components/views/navigation_bar&quot;;
+import cardVM from &quot;../components/viewModels/card_view_model&quot;;
+import VitalPacket from &quot;../components/models/packet&quot;;
+
+export default {
+    name: &quot;my-monitor&quot;,
+    components: {
+      navigationBar,
+      cardVM,
+      patientRiskCard
+    },
+    data: function() {
+      return {
+        thermometerPacket: new VitalPacket(),
+        oximeterPacket: new VitalPacket(),
+        abpsPacket: new VitalPacket(),
+        abpdPacket: new VitalPacket(),
+        ecgPacket: new VitalPacket(),
+        glucosemeterPacket: new VitalPacket(),
+        systemCost: &quot;0&quot;,
+        systemReliability: &quot;0&quot;,
+        patientPacket: { data: &quot;0&quot;, alert: false },
+        isConnected: false,
+        session: 1
+      };
+    },
+    sockets: {
+      connect() {
+        this.isConnected = true;
+      },
+  
+      disconnect() {
+        this.isConnected = false;
+      },
+      reliabilityChannel(data) {
+        this.systemReliability = data;
+      },
+      costChannel(data) {
+        this.systemCost = data;
+      }
+    },
+    methods: {
+      handleSensorPacket(data, sensor) {
+        if(data == null || data == undefined) {
+          console.log(&#039;Null data coming from sensor &#039; + sensor)
+          return;
+        }       
+        this[sensor + &quot;Packet&quot;] = new VitalPacket(
+          data.battery,
+          data.risk,
+          Number(data.raw).toFixed(1)
+        );
+        
+      },
+      handlePatientPacket(data) {
+        data = Number(data).toFixed(1);
+        this.patientPacket = { data: data, alert: data &gt; 60 };
+      }
+    },
+    created() {
+      /* eslint-disable no-console */
+      var routeSession = this.$route.query.session;
+      if (routeSession != null &amp;&amp; routeSession != undefined)
+        this.session = routeSession;
+  
+      this.sockets.subscribe(&quot;thermometerChannel=&quot; + this.session, data =&gt;
+        this.handleSensorPacket(data, &quot;thermometer&quot;)
+      );
+      this.sockets.subscribe(&quot;ecgChannel=&quot; + this.session, data =&gt;
+        this.handleSensorPacket(data, &quot;ecg&quot;)
+      );
+      this.sockets.subscribe(&quot;ABPSChannel=&quot; + this.session, data =&gt;
+        this.handleSensorPacket(data, &quot;abps&quot;)
+      );
+      this.sockets.subscribe(&quot;ABPDChannel=&quot; + this.session, data =&gt;
+        this.handleSensorPacket(data, &quot;abpd&quot;)
+      );
+      this.sockets.subscribe(&quot;oximeterChannel=&quot; + this.session, data =&gt;
+        this.handleSensorPacket(data, &quot;oximeter&quot;)
+      );
+      this.sockets.subscribe(&quot;glucosemeterChannel=&quot; + this.session, data =&gt;
+        this.handleSensorPacket(data, &quot;glucosemeter&quot;)
+      );
+      this.sockets.subscribe(&quot;patientChannel=&quot; + this.session, data =&gt;
+        this.handlePatientPacket(data)
+      );
+    }
+  };</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>
