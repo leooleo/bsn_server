@@ -29,6 +29,7 @@ import navigationBar from "../components/views/navigation_bar";
 import cardVM from "../components/viewModels/card_view_model";
 import VitalPacket from "../components/models/packet";
 import covidRiskCard from "../components/viewModels/covid_risk_card";
+import covidTest from "../utils/covid"
 
 export default {
   name: "my-monitor",
@@ -82,10 +83,14 @@ export default {
         Number(data.raw).toFixed(1)
       );
       if( sensor == "oximeter") {
-        this.handleCovidOxg(data.raw)
+        let oxg = Number(data.raw).toFixed(1);
+        this.oxg = { data: oxg };
+        this.changeCovidRisk();
       }
       else if( sensor == "thermometer") {
-        this.handleCovidTemp(data.raw)
+        let temp = Number(data.raw).toFixed(1);
+        this.temp = { data: temp};
+        this.changeCovidRisk();
       }
     },
     handlePatientPacket(data) {
@@ -93,18 +98,9 @@ export default {
       this.patientPacket = { data: data, alert: data > 60 };
     },
 
-    handleCovidOxg(oxg) {
-      oxg = Number(oxg).toFixed(1);
-      this.oxg = { data: oxg }
-      this.patientCovidPacket = { alert: ((this.oxg.data < 91) && (this.temp.data > 37.8)) };
-      //console.log(this.temp.data)
-    },
-
-    handleCovidTemp(temp) {
-      temp = Number(temp).toFixed(1);
-      this.temp = { data: temp}
-      this.patientCovidPacket = { alert: ((this.oxg.data < 91) && (this.temp.data > 37.8)) };
-      //console.log(this.oxg.data)
+    changeCovidRisk() {
+      let risk = covidTest(this.oxg.data, this.temp.data);
+      this.patientCovidPacket = { alert: risk };
     }
   },
   created() {
