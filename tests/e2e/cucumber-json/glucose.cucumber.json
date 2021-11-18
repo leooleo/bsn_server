@@ -1,0 +1,42 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Displays a glucose meter on the vital Signs interface.",
+    "line": 1,
+    "id": "displays-a-glucose-meter-on-the-vital-signs-interface.",
+    "tags": [],
+    "uri": "glucose.feature",
+    "elements": [
+      {
+        "id": "displays-a-glucose-meter-on-the-vital-signs-interface.;the-glucose-meter-chart-is-properly-shown",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "The glucose meter chart is properly shown",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "that I am on the Vital Signs Page",
+            "result": {
+              "status": "passed",
+              "duration": 646000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "I should be able to see the glucose chart variations of the monitored patient",
+            "result": {
+              "status": "passed",
+              "duration": 603000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
