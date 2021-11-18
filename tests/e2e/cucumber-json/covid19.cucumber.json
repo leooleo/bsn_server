@@ -1,0 +1,52 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Show alert if the vital signs(Oxigenation, Temperature) may indicate a covid-19 case",
+    "line": 1,
+    "id": "show-alert-if-the-vital-signs(oxigenation,-temperature)-may-indicate-a-covid-19-case",
+    "tags": [],
+    "uri": "covid19.feature",
+    "elements": [
+      {
+        "id": "show-alert-if-the-vital-signs(oxigenation,-temperature)-may-indicate-a-covid-19-case;an-alert-is-shown-when-a-patient-may-have-covid-19",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "An alert is shown when a patient may have covid-19",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "that I am on the Vital Signs Page",
+            "result": {
+              "status": "passed",
+              "duration": 1135000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "any of the patients show a negative change in any of the covid-19 related vital signs",
+            "result": {
+              "status": "passed",
+              "duration": 213000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "I should see an covid-19 alert triggering in the patient session",
+            "result": {
+              "status": "passed",
+              "duration": 43000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

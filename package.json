@@ -7,7 +7,21 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "start": "node server.js",
-    "complexity-report": "./node_modules/.bin/es6-plato -r -d ./report src"
+    "complexity-report": "./node_modules/.bin/es6-plato -r -d ./report src",
+    "test": "npx cypress open",
+    "test:ci": "npx cypress run --spec **/*.features",
+    "test:tags": "npx cypress-tags run -e TAGS=$TAGS"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true,
+    "stepDefinitions": "tests/e2e/specs",
+    "commonPath": "tests/e2e/common",
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "tests/e2e/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -31,6 +45,7 @@
     "@vue/cli-service": "^3.11.0",
     "babel-eslint": "^10.0.1",
     "cypress": "^9.0.0",
+    "cypress-cucumber-preprocessor": "^4.3.0",
     "es6-plato": "^1.2.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
