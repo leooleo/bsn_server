@@ -22,7 +22,7 @@
             "name": "that I am on the Vital Signs Page",
             "result": {
               "status": "passed",
-              "duration": 1135000000
+              "duration": 627000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "any of the patients show a negative change in any of the covid-19 related vital signs",
             "result": {
               "status": "passed",
-              "duration": 213000000
+              "duration": 673000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "I should see an covid-19 alert triggering in the patient session",
             "result": {
               "status": "passed",
-              "duration": 43000000
+              "duration": 37000000
             }
           }
         ]
